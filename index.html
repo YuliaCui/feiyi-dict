@@ -1,110 +1,250 @@
 <!DOCTYPE html>
 <html lang="zh-CN">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>中国非物质文化遗产词典</title>
-    <style>
-        * {
-            margin: 0;
-            padding: 0;
-            box-sizing: border-box;
-            font-family: "Microsoft Yahei", sans-serif;
-        }
-        body {
-            background-color: #f5f5f5;
-            padding: 20px;
-        }
-        .container {
-            max-width: 1200px;
-            margin: 0 auto;
-            background: white;
-            padding: 30px;
-            border-radius: 10px;
-            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
-        }
-        h1 {
-            text-align: center;
-            color: #2c3e50;
-            margin-bottom: 30px;
-        }
-        .term-card {
-            border: 1px solid #e0e0e0;
-            border-radius: 8px;
-            padding: 20px;
-            margin-bottom: 20px;
-            background: #fafafa;
-        }
-        .term-title {
-            font-size: 22px;
-            font-weight: bold;
-            color: #27ae60;
-            margin-bottom: 10px;
-        }
-        .term-info {
-            display: grid;
-            grid-template-columns: 1fr 1fr;
-            gap: 10px;
-            margin-top: 15px;
-        }
-        .info-item {
-            padding: 8px;
-            background: white;
-            border-radius: 5px;
-            border-left: 4px solid #3498db;
-        }
-        .info-label {
-            font-weight: bold;
-            color: #34495e;
-        }
-        .example {
-            margin-top: 15px;
-            padding: 10px;
-            background: #e8f4fd;
-            border-radius: 5px;
-            font-style: italic;
-        }
-    </style>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+<title>中华非遗英文词典 | Intangible Cultural Heritage Dictionary</title>
+<style>
+  *{box-sizing:border-box;margin:0;padding:0;}
+  body{font-family:"Microsoft YaHei",sans-serif;background:#f7f8fa;padding:20px;max-width:900px;margin:0 auto;line-height:1.6;color:#333;}
+  .title{text-align:center;font-size:26px;margin-bottom:10px;color:#2c3e50;}
+  .subtitle{text-align:center;font-size:16px;color:#7f8c8d;margin-bottom:30px;}
+  .search-box{width:100%;padding:14px 16px;font-size:16px;border:1px solid #ddd;border-radius:8px;outline:none;margin-bottom:25px;box-shadow:0 1px 3px rgba(0,0,0,0.1);}
+  .search-box:focus{border-color:#3498db;}
+  .list{display:flex;flex-direction:column;gap:12px;}
+  .item{background:#fff;padding:16px 20px;border-radius:8px;box-shadow:0 1px 2px rgba(0,0,0,0.08);}
+  .cn{font-size:18px;font-weight:bold;color:#2c3e50;}
+  .en{font-size:16px;color:#3498db;margin:4px 0;}
+  .desc{font-size:14px;color:#7f8c8d;}
+  .empty{text-align:center;padding:40px;color:#999;display:none;}
+</style>
 </head>
 <body>
-    <div class="container">
-        <h1>中国非物质文化遗产词典</h1>
 
-        <!-- 剪纸 -->
-        <div class="term-card">
-            <div class="term-title">剪纸 (Paper Cutting)</div>
-            <div class="term-info">
-                <div class="info-item"><span class="info-label">类别：</span>传统技艺</div>
-                <div class="info-item"><span class="info-label">英文释义：</span>A popular Chinese folk art where intricate designs are cut from paper.</div>
-                <div class="info-item"><span class="info-label">中文释义：</span>中国民间传统装饰艺术，用剪刀或刻刀在纸上剪刻图案。</div>
-                <div class="info-item"><span class="info-label">翻译要点：</span>国际通用译法 Paper Cutting，不可直译为 "cut paper"。</div>
-            </div>
-            <div class="example">Paper Cutting is a famous Chinese intangible cultural heritage. 剪纸是中国著名的非物质文化遗产。</div>
-        </div>
+<h1 class="title">中华非遗英文词典</h1>
+<p class="subtitle">Chinese Intangible Cultural Heritage English Dictionary</p>
 
-        <!-- 豫剧 -->
-        <div class="term-card">
-            <div class="term-title">豫剧 (Yu Opera)</div>
-            <div class="term-info">
-                <div class="info-item"><span class="info-label">类别：</span>传统戏曲</div>
-                <div class="info-item"><span class="info-label">英文释义：</span>A major local opera from Henan with bold and expressive singing.</div>
-                <div class="info-item"><span class="info-label">中文释义：</span>河南主要地方戏曲，唱腔高亢、表现力强。</div>
-                <div class="info-item"><span class="info-label">翻译要点：</span>国际常用 Yu Opera，不直译为 Henan Opera。</div>
-            </div>
-            <div class="example">Yu Opera has a profound influence on Henan's culture. 豫剧对河南文化有着深远的影响。</div>
-        </div>
+<input type="text" class="search-box" id="search" placeholder="输入中文或英文搜索……">
 
-        <!-- 太极拳 -->
-        <div class="term-card">
-            <div class="term-title">太极拳 (Tai Chi)</div>
-            <div class="term-info">
-                <div class="info-item"><span class="info-label">类别：</span>传统体育</div>
-                <div class="info-item"><span class="info-label">英文释义：</span>A traditional Chinese martial art focusing on slow, gentle movements.</div>
-                <div class="info-item"><span class="info-label">中文释义：</span>注重缓慢、柔和动作的中国传统武术。</div>
-                <div class="info-item"><span class="info-label">翻译要点：</span>国际通用译法 Tai Chi，也可写 Taijiquan。</div>
-            </div>
-            <div class="example">Practicing Tai Chi is beneficial for physical and mental health. 练习太极拳有益于身心健康。</div>
-        </div>
-    </div>
+<div class="empty">暂无匹配结果</div>
+<div class="list" id="list"></div>
+
+<script>
+const data = [
+{cn:"剪纸",en:"Paper Cutting",desc:"用剪刀或刻刀在纸上剪刻花纹的民间艺术"},
+{cn:"皮影戏",en:"Shadow Puppetry",desc:"以兽皮或纸板制作影人，隔幕表演的戏剧形式"},
+{cn:"昆曲",en:"Kunqu Opera",desc:"中国最古老剧种之一，唱腔婉转，被誉为百戏之祖"},
+{cn:"京剧",en:"Peking Opera",desc:"中国国粹，融合唱念做打，脸谱极具特色"},
+{cn:"越剧",en:"Shaoxing Opera",desc:"流行于江南，唱腔柔美，多以才子佳人题材"},
+{cn:"黄梅戏",en:"Huangmei Opera",desc:"源于湖北黄梅，曲调清新朴实"},
+{cn:"评剧",en:"Pingju Opera",desc:"北方地方戏曲，贴近生活，通俗易懂"},
+{cn:"粤剧",en:"Cantonese Opera",desc:"岭南代表剧种，用粤语演唱，武打细腻"},
+{cn:"秦腔",en:"Qinqiang Opera",desc:"西北古老剧种，唱腔高亢激昂"},
+{cn:"豫剧",en:"Yu Opera",desc:"河南地方戏，节奏鲜明，唱腔质朴"},
+{cn:"川剧",en:"Sichuan Opera",desc:"以变脸、吐火、藏刀等绝技闻名"},
+{cn:"河北梆子",en:"Hebei Bangzi Opera",desc:"北方梆子腔，高亢激越"},
+{cn:"湖南花鼓戏",en:"Hunan Flower Drum Opera",desc:"乡土气息浓厚，活泼轻快"},
+{cn:"江西采茶戏",en:"Jiangxi Tea-Picking Opera",desc:"源于茶农劳动歌舞"},
+{cn:"汉剧",en:"Han Opera",desc:"湖北古老剧种，西皮二黄腔调"},
+{cn:"粤绣",en:"Cantonese Embroidery",desc:"广东传统刺绣，色彩浓烈，构图饱满"},
+{cn:"苏绣",en:"Suzhou Embroidery",desc:"江苏刺绣，精细雅洁，针法丰富"},
+{cn:"湘绣",en:"Hunan Embroidery",desc:"湖南刺绣，形象写实，质感强烈"},
+{cn:"蜀绣",en:"Sichuan Embroidery",desc:"四川刺绣，针法严谨，色彩明快"},
+{cn:"潮绣",en:"Chaozhou Embroidery",desc:"潮州刺绣，垫高立体，金碧辉煌"},
+{cn:"苗绣",en:"Miao Embroidery",desc:"苗族刺绣，纹样神秘，色彩厚重"},
+{cn:"壮锦",en:"Zhuang Brocade",desc:"壮族传统织锦，色彩艳丽，几何纹样"},
+{cn:"土家织锦",en:"Tujia Brocade",desc:"土家族手工锦，纹样古朴"},
+{cn:"蓝印花布",en:"Blue Calico Printing",desc:"传统防染印花，蓝白素雅"},
+{cn:"蜡染",en:"Batik Dyeing",desc:"以蜡防染，纹样自然冰裂纹"},
+{cn:"扎染",en:"Tie-Dyeing",desc:"捆扎染色，图案晕染自然"},
+{cn:"唐三彩",en:"Tang Tri-Color Glazed Pottery",desc:"唐代低温铅釉陶器，黄绿白为主"},
+{cn:"青花瓷",en:"Blue and White Porcelain",desc:"元代成熟，釉下蓝彩瓷器"},
+{cn:"紫砂壶",en:"Purple Clay Teapot",desc:"宜兴紫砂茶具，透气性极佳"},
+{cn:"汝瓷",en:"Ru Porcelain",desc:"宋代五大名窑，天青色，温润古朴"},
+{cn:"钧瓷",en:"Jun Porcelain",desc:"窑变色彩，入窑一色出窑万彩"},
+{cn:"官窑",en:"Official Kiln Porcelain",desc:"宋代宫廷用瓷，质感厚重"},
+{cn:"哥窑",en:"Ge Kiln Porcelain",desc:"开片纹理，金丝铁线"},
+{cn:"定瓷",en:"Ding Kiln Porcelain",desc:"白瓷刻花，细腻精美"},
+{cn:"景泰蓝",en:"Cloisonné",desc:"铜胎掐丝珐琅，明清宫廷工艺"},
+{cn:"木雕",en:"Wood Carving",desc:"以木材雕刻人物、花鸟、建筑装饰"},
+{cn:"根雕",en:"Root Carving",desc:"利用树根天然形态创作艺术品"},
+{cn:"竹编",en:"Bamboo Weaving",desc:"以竹丝编织器具、工艺品"},
+{cn:"草编",en:"Straw Weaving",desc:"麦秆、蒲草编织日用品"},
+{cn:"柳编",en:"Willow Weaving",desc:"柳条编织筐、篮、家具"},
+{cn:"石雕",en:"Stone Carving",desc:"石材雕刻，常用于建筑、佛像"},
+{cn:"砖雕",en:"Brick Carving",desc:"青砖雕刻，用于民居、祠堂装饰"},
+{cn:"玉雕",en:"Jade Carving",desc:"玉石雕琢，温润精美"},
+{cn:"牙雕",en:"Ivory Carving",desc:"兽牙雕刻，工艺精细（现已受保护）"},
+{cn:"核雕",en:"Olive Stone Carving",desc:"橄榄核微雕，方寸之间造景"},
+{cn:"漆器",en:"Lacquerware",desc:"涂漆工艺，防潮美观，可雕可嵌"},
+{cn:"雕漆",en:"Carved Lacquer",desc:"多层堆漆后雕刻，色泽鲜红"},
+{cn:"金漆镶嵌",en:"Gold Lacquer Inlay",desc:"镶嵌贝壳、玉石、金属"},
+{cn:"宣纸",en:"Xuan Paper",desc:"安徽泾县书画纸，润墨性极佳"},
+{cn:"徽墨",en:"Hui Ink Stick",desc:"安徽古墨，色泽黑亮，香味持久"},
+{cn:"端砚",en:"Duan Ink Stone",desc:"广东肇庆砚石，发墨细腻"},
+{cn:"湖笔",en:"Hu Writing Brush",desc:"浙江湖州毛笔，尖齐圆健"},
+{cn:"木版年画",en:"Woodblock New Year Picture",desc:"春节张贴，祈福辟邪"},
+{cn:"杨柳青年画",en:"Yangliuqing New Year Paintings",desc:"北方年画，细腻雅致"},
+{cn:"桃花坞年画",en:"Taohuawu New Year Paintings",desc:"江南年画，秀丽明快"},
+{cn:"杨家埠年画",en:"Yangjiabu New Year Paintings",desc:"山东年画，粗犷喜庆"},
+{cn:"剪纸",en:"Paper Cutting",desc:"节庆装饰，窗花、喜花、礼花"},
+{cn:"中国结",en:"Chinese Knot",desc:"手工编织结饰，寓意吉祥"},
+{cn:"风筝",en:"Chinese Kite",desc:"传统民间飞行器，潍坊风筝最著名"},
+{cn:"空竹",en:"Diabolo / Chinese Yo-Yo",desc:"抖空竹，旋转发声，杂技常见"},
+{cn:"舞龙",en:"Dragon Dance",desc:"节庆巡游，象征吉祥兴旺"},
+{cn:"舞狮",en:"Lion Dance",desc:"南狮威猛，北狮活泼，驱邪纳福"},
+{cn:"高跷",en:"Stilt Walking",desc:"踩木跷表演，民间社火常见"},
+{cn:"旱船",en:"Land Boat Dance",desc:"模拟行船，载歌载舞"},
+{cn:"腰鼓",en:"Waist Drum",desc:"陕北民间舞蹈，气势豪迈"},
+{cn:"安塞腰鼓",en:"Ansai Waist Drum",desc:"陕北代表性鼓舞，粗犷奔放"},
+{cn:"秧歌",en:"Yangge Dance",desc:"北方民间集体舞蹈，喜庆热闹"},
+{cn:"花灯",en:"Festival Lanterns",desc:"元宵彩灯，造型精巧"},
+{cn:"灯会",en:"Lantern Festival Fair",desc:"元宵观灯游园活动"},
+{cn:"糖画",en:"Sugar Painting",desc:"以熔化糖汁作画，可食可赏"},
+{cn:"面塑",en:"Dough Figurine",desc:"糯米面捏制人物、动物"},
+{cn:"吹糖人",en:"Sugar Blowing Art",desc:"吹气塑形糖艺，民间小吃"},
+{cn:"泥人张",en:"Clay Figurine Zhang",desc:"天津泥塑，形象生动逼真"},
+{cn:"惠山泥人",en:"Huishan Clay Figurines",desc:"江苏无锡泥塑，大阿福最经典"},
+{cn:"中医针灸",en:"Acupuncture and Moxibustion",desc:"中医非药物疗法"},
+{cn:"中医推拿",en:"Chinese Massage (Tuina)",desc:"手法调理经络气血"},
+{cn:"中药炮制",en:"Traditional Chinese Medicine Processing",desc:"药材加工工艺"},
+{cn:"藏医药",en:"Tibetan Medicine",desc:"藏族传统医学体系"},
+{cn:"蒙医药",en:"Mongolian Medicine",desc:"蒙古族传统医药"},
+{cn:"端午节习俗",en:"Dragon Boat Festival Customs",desc:"吃粽子、赛龙舟、挂艾草"},
+{cn:"春节习俗",en:"Spring Festival Customs",desc:"拜年、守岁、贴春联、放鞭炮"},
+{cn:"中秋节习俗",en:"Mid-Autumn Festival Customs",desc:"赏月、吃月饼、团圆"},
+{cn:"清明节习俗",en:"Tomb-Sweeping Day Customs",desc:"扫墓、踏青、祭祖"},
+{cn:"七夕节",en:"Qixi Festival",desc:"中国情人节，乞巧习俗"},
+{cn:"重阳节",en:"Double Ninth Festival",desc:"登高、赏菊、敬老"},
+{cn:"妈祖信俗",en:"Mazu Belief",desc:"沿海渔民保护神信仰"},
+{cn:"黄帝陵祭典",en:"Yellow Emperor Mausoleum Ceremony",desc:"华夏始祖祭祀"},
+{cn:"祭孔大典",en:"Confucius Ceremony",desc:"纪念孔子的礼乐仪式"},
+{cn:"那达慕",en:"Nadam Fair",desc:"蒙古族传统盛会，赛马、摔跤、射箭"},
+{cn:"火把节",en:"Torch Festival",desc:"彝族、白族等节日，驱邪祈福"},
+{cn:"泼水节",en:"Water-Splashing Festival",desc:"傣族新年，泼水送祝福"},
+{cn:"藏历新年",en:"Tibetan New Year",desc:"藏族传统新年，仪式隆重"},
+{cn:"花儿会",en:"Hua'er Folk Song Festival",desc:"西北民歌对唱盛会"},
+{cn:"侗族大歌",en:"Dong Grand Chorus",desc:"侗族无伴奏多声部合唱"},
+{cn:"蒙古族长调",en:"Mongolian Long Song",desc:"草原长调，悠扬辽阔"},
+{cn:"维吾尔木卡姆",en:"Uygur Muqam",desc:"维吾尔族大型古典音乐套曲"},
+{cn:"南音",en:"Southern Music",desc:"福建古乐，中国音乐活化石"},
+{cn:"古琴艺术",en:"Guqin Art",desc:"中国最古老弹拨乐器，文人音乐"},
+{cn:"古筝艺术",en:"Guzheng Art",desc:"传统弹拨乐器，音色清亮"},
+{cn:"二胡",en:"Erhu",desc:"民族拉弦乐器，音色柔美"},
+{cn:"琵琶",en:"Pipa",desc:"弹拨乐器，音色清脆，表现力强"},
+{cn:"唢呐",en:"Suona",desc:"民间吹管乐器，高亢嘹亮"},
+{cn:"笛子",en:"Bamboo Flute",desc:"竹制吹管乐器，音色悠扬"},
+{cn:"锣鼓",en:"Gong and Drum",desc:"民间打击乐，节庆伴奏"},
+{cn:"评书",en:"Storytelling",desc:"北方说唱艺术，一人一桌一扇"},
+{cn:"相声",en:"Crosstalk",desc:"幽默说唱，说学逗唱"},
+{cn:"快板",en:"Kuaiban Clapper Talk",desc:"竹板伴奏，节奏明快说唱"},
+{cn:"山东快书",en:"Shandong Kuaishu",desc:"山东方言说唱故事"},
+{cn:"京东大鼓",en:"Jingdong Dagu",desc:"鼓书说唱，京腔韵调"},
+{cn:"梅花大鼓",en:"Meihua Dagu",desc:"北方鼓曲，婉转柔美"},
+{cn:"凤阳花鼓",en:"Fengyang Flower Drum",desc:"安徽凤阳民间歌舞"},
+{cn:"龙舟竞渡",en:"Dragon Boat Racing",desc:"端午水上竞技"},
+{cn:"赛马",en:"Horse Racing",desc:"蒙古族、藏族传统竞技"},
+{cn:"摔跤",en:"Wrestling",desc:"蒙古族、彝族等传统体育"},
+{cn:"射箭",en:"Archery",desc:"传统狩猎与竞技活动"},
+{cn:"武术",en:"Chinese Martial Arts",desc:"强身健体、攻防技艺"},
+{cn:"太极拳",en:"Tai Chi",desc:"内家拳，舒缓柔和，养生健体"},
+{cn:"少林功夫",en:"Shaolin Kung Fu",desc:"禅宗武术，刚劲有力"},
+{cn:"武当功夫",en:"Wudang Kung Fu",desc:"道家武术，以柔克刚"},
+{cn:"峨眉武术",en:"Emei Martial Arts",desc:"巴蜀武术，灵巧多变"},
+{cn:"二十四节气",en:"24 Solar Terms",desc:"中国传统历法体系，指导农事"},
+{cn:"珠算",en:"Abacus Calculation",desc:"传统计算工具，数学非遗"},
+{cn:"篆刻",en:"Seal Carving",desc:"书法与雕刻结合的印章艺术"},
+{cn:"书法",en:"Chinese Calligraphy",desc:"汉字书写艺术，篆隶楷行草"},
+{cn:"水墨画",en:"Chinese Ink Wash Painting",desc:"以水墨为主的国画"},
+{cn:"唐卡",en:"Thangka",desc:"藏族宗教卷轴画，色彩绚丽"},
+{cn:"东巴文",en:"Dongba Script",desc:"纳西族象形文字，活化石"},
+{cn:"水书",en:"Shui Script",desc:"水族古老文字，用于祭祀典籍"},
+{cn:"女书",en:"Nüshu Script",desc:"湖南江永女性专用文字"},
+{cn:"客家山歌",en:"Hakka Folk Songs",desc:"客家方言抒情民歌"},
+{cn:"陕北民歌",en:"Northern Shaanxi Folk Songs",desc:"苍凉高亢，信天游为主"},
+{cn:"江南丝竹",en:"Jiangnan Sizhu",desc:"江南民间器乐合奏"},
+{cn:"广东音乐",en:"Cantonese Music",desc:"轻快活泼，岭南器乐"},
+{cn:"潮州音乐",en:"Chaozhou Music",desc:"古朴典雅，丝竹乐为主"},
+{cn:"福建南少林武术",en:"Southern Shaolin Martial Arts",desc:"福建少林拳系"},
+{cn:"沧州武术",en:"Cangzhou Martial Arts",desc:"武术之乡，拳种丰富"},
+{cn:"太极拳（陈氏）",en:"Chen-style Tai Chi",desc:"最原始太极拳，刚柔并济"},
+{cn:"太极拳（杨氏）",en:"Yang-style Tai Chi",desc:"舒展大方，普及最广"},
+{cn:"太极拳（吴氏）",en:"Wu-style Tai Chi",desc:"小巧紧凑，柔化灵活"},
+{cn:"太极拳（武氏）",en:"Wu-style Tai Chi (Different)",desc:"小巧紧凑，注重内功"},
+{cn:"太极拳（孙氏）",en:"Sun-style Tai Chi",desc:"小巧灵活，开合自如"},
+{cn:"形意拳",en:"Xingyi Quan",desc:"象形取意，刚猛简练"},
+{cn:"八卦掌",en:"Baguazhang",desc:"走圈转掌，灵活多变"},
+{cn:"通臂拳",en:"Tongbei Quan",desc:"长臂舒展，放长击远"},
+{cn:"劈挂拳",en:"Pigua Quan",desc:"劈挂舒展，气势开阔"},
+{cn:"燕青拳",en:"Yanqing Quan",desc:"轻巧灵活，讲究身法"},
+{cn:"昆仑拳",en:"Kunlun Quan",desc:"西部拳系，刚健实用"},
+{cn:"峨眉刺",en:"Emei Stilettos",desc:"峨眉派短兵器"},
+{cn:"九节鞭",en:"Nine-Section Whip",desc:"软兵器，凌厉多变"},
+{cn:"三节棍",en:"Three-Section Staff",desc:"软中带硬，长短兼备"},
+{cn:"刀术",en:"Swordsmanship",desc:"传统刀法，勇猛快速"},
+{cn:"剑术",en:"Fencing",desc:"剑法轻灵，飘逸潇洒"},
+{cn:"枪术",en:"Spearplay",desc:"百兵之王，长兵器主力"},
+{cn:"棍术",en:"Staff Play",desc:"棍法刚劲，横扫一片"},
+{cn:"剪纸（喜花）",en:"Wedding Paper Cutting",desc:"婚嫁专用剪纸"},
+{cn:"剪纸（窗花）",en:"Window Paper Cutting",desc:"春节窗户装饰"},
+{cn:"剪纸（礼花）",en:"Festival Paper Cutting",desc:"节庆装饰"},
+{cn:"潮剧",en:"Chaozhou Opera",desc:"潮汕地方戏，唱腔柔婉"},
+{cn:"梨园戏",en:"Liyuan Opera",desc:"福建古老剧种，保留古戏形态"},
+{cn:"莆仙戏",en:"Puxian Opera",desc:"福建莆田、仙游戏曲"},
+{cn:"高甲戏",en:"Gaojia Opera",desc:"福建闽南武戏见长"},
+{cn:"傩戏",en:"Nuo Opera",desc:"驱邪祭祀戏剧，面具神秘"},
+{cn:"地戏",en:"Di Opera",desc:"贵州安顺面具戏，军傩演变"},
+{cn:"布依戏",en:"Bouyei Opera",desc:"布依族传统戏曲"},
+{cn:"白族吹吹腔",en:"Bai Ethnic Wind Opera",desc:"白族戏曲"},
+{cn:"哈尼族多声部民歌",en:"Hani Multi-Vocal Folk Songs",desc:"梯田农耕民歌"},
+{cn:"彝族民歌",en:"Yi Ethnic Folk Songs",desc:"高亢悠远，山歌对唱"},
+{cn:"壮族民歌",en:"Zhuang Ethnic Folk Songs",desc:"对歌、山歌、叙事歌"},
+{cn:"傣族民歌",en:"Dai Ethnic Folk Songs",desc:"柔美抒情，水边歌唱"},
+{cn:"黎族民歌",en:"Li Ethnic Folk Songs",desc:"海南黎族传统歌谣"},
+{cn:"畲族民歌",en:"She Ethnic Folk Songs",desc:"畲族叙事与情歌"},
+{cn:"满族剪纸",en:"Manchu Paper Cutting",desc:"满族纹样，古朴粗犷"},
+{cn:"朝鲜族农乐舞",en:"Korean Ethnic Farming Dance",desc:"朝鲜族农耕庆典舞蹈"},
+{cn:"鄂伦春族狩猎文化",en:"Oroqen Hunting Culture",desc:"北方狩猎民族传统"},
+{cn:"赫哲族鱼皮工艺",en:"Hezhen Fish Skin Craft",desc:"鱼皮制衣、制器"},
+{cn:"达斡尔族鲁日格勒舞",en:"Daur Rurigele Dance",desc:"达斡尔民间舞蹈"},
+{cn:"佤族木鼓舞",en:"Wa Drum Dance",desc:"佤族祭祀鼓舞"},
+{cn:"景颇族目瑙纵歌",en:"Jingpo Munao Dance",desc:"景颇族大型集体舞"},
+{cn:"纳西族白沙细乐",en:"Naxi Baisha Fine Music",desc:"纳西古乐"},
+{cn:"独龙族卡雀哇节",en:"Derung Festival",desc:"独龙族年节"},
+{cn:"门巴族戏剧",en:"Monpa Drama",desc:"门巴族民间戏曲"},
+{cn:"珞巴族服饰",en:"Lhoba Ethnic Clothing",desc:"珞巴族传统服饰"},
+{cn:"德昂族水鼓",en:"De'ang Water Drum",desc:"德昂族水鼓舞蹈"}
+];
+
+const listEl = document.getElementById('list');
+const searchEl = document.getElementById('search');
+const emptyEl = document.querySelector('.empty');
+
+function render(list){
+  listEl.innerHTML = '';
+  if(list.length===0){emptyEl.style.display='block';return;}
+  emptyEl.style.display='none';
+  list.forEach(item=>{
+    const div = document.createElement('div');
+    div.className='item';
+    div.innerHTML = `
+      <div class="cn">${item.cn}</div>
+      <div class="en">${item.en}</div>
+      <div class="desc">${item.desc}</div>
+    `;
+    listEl.appendChild(div);
+  });
+}
+
+render(data);
+
+searchEl.addEventListener('input',function(){
+  const kw = this.value.toLowerCase().trim();
+  const result = data.filter(item=>
+    item.cn.includes(kw) || item.en.toLowerCase().includes(kw) || item.desc.includes(kw)
+  );
+  render(result);
+});
+</script>
 </body>
 </html>
