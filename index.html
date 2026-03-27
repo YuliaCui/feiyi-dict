@@ -1,83 +1,77 @@
-<!DOCTYPE html>
+ <!DOCTYPE html>
 <html lang="zh-CN">
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>译通非遗 · 非遗英译专业辞典</title>
 <style>
-* {
-  margin: 0;
-  padding: 0;
-  box-sizing: border-box;
-  font-family: "Microsoft YaHei", sans-serif;
-}
+* { margin: 0; padding: 0; box-sizing: border-box; }
 body {
-  background: #f6f7fa;
+  font-family: "Microsoft YaHei", sans-serif;
+  background: #f5f7fa;
+  min-height: 100vh;
+  display: flex; flex-direction: column;
 }
 .header {
-  background: #1a4a7e;
-  color: white;
-  padding: 16px 20px;
-  text-align: center;
+  background: #1a4a7e; color: white;
+  padding: 24px; text-align: center;
+}
+.search-section {
+  padding: 30px 20px; background: white;
 }
 .search-box {
   display: block;
-  width: 90%;
-  max-width: 700px;
-  margin: 30px auto;
-  padding: 14px 20px;
-  border-radius: 30px;
-  border: 1px solid #ddd;
-  font-size: 16px;
-}
-.main-box {
-  max-width: 900px;
+  width: 100%; max-width: 700px;
   margin: 0 auto;
-  padding: 0 20px;
+  padding: 14px 24px; border-radius: 50px;
+  border: 1px solid #ddd; font-size: 16px;
 }
-.word-item {
-  background: white;
-  padding: 16px;
-  border-radius: 10px;
-  margin-bottom: 10px;
+.search-box:focus { border-color: #1a4a7e; outline: none; }
+.main-content {
+  flex: 1; max-width: 700px; margin: 20px auto; padding: 0 20px;
 }
-.word-name {
-  font-size: 17px;
-  font-weight: bold;
+.result-item {
+  background: white; padding: 18px; border-radius: 10px;
+  margin-bottom: 12px; box-shadow: 0 1px 4px rgba(0,0,0,0.04);
 }
-.word-en {
-  color: #666;
-  margin: 4px 0;
+.result-name { font-size: 18px; font-weight: bold; color: #222; margin-bottom: 4px; }
+.result-en { font-size: 15px; color: #666; margin-bottom: 6px; }
+.result-tag {
+  font-size: 13px; color: #1a4a7e; background: #e8f0f8;
+  padding: 3px 8px; border-radius: 4px; display: inline-block; margin-right: 6px;
 }
+.empty-state { text-align: center; padding: 60px 20px; color: #999; }
 .footer {
-  background: #1a4a7e;
-  color: white;
-  text-align: center;
-  padding: 16px;
-  font-size: 13px;
-  margin-top: 40px;
+  background: #1a4a7e; color: white; text-align: center;
+  padding: 20px; font-size: 14px; margin-top: auto;
 }
+.footer small { display: block; margin-top: 8px; opacity: 0.8; }
 </style>
 </head>
-
 <body>
 <div class="header">
-  <h2>译通非遗 · 非遗英译专业辞典</h2>
+  <h1>译通非遗 · 非遗英译专业辞典</h1>
 </div>
 
-<input class="search-box" id="search" placeholder="搜索中文、英文、拼音、音标">
+<div class="search-section">
+  <input type="text" class="search-box" id="searchInput" placeholder="搜索中文、英文、音标、关键词">
+</div>
 
-<div class="main-box">
-  <div id="result"></div>
+<div class="main-content" id="resultContainer">
+  <div class="empty-state">输入关键词，即可搜索非遗词条</div>
 </div>
 
 <div class="footer">
-  © 2026 译通非遗 版权所有 | 仅限学习与学术使用<br>
-  商务合作：3201973524@qq.com
+  © 2026 译通非遗 版权所有 | 仅限学习与学术使用
+  <small>商务与学术合作：3201973524@qq.com</small>
 </div>
+
 <script>
+// --------------------------
+// 1. 你的数据（直接在这里粘贴所有词条）
+// --------------------------
 const ichData = [
-{
+  {
     name: "昆曲",
     en: "Kunqu Opera",
     phonetic_uk: "/kwʌnˈtʃuː ˈɒprə/",
@@ -714,7 +708,7 @@ const ichData = [
     desc: "中国音乐活化石，古朴典雅，唐宋古乐遗存。",
     example_cn: "南音保留了唐宋古乐的遗韵。",
     example_en: "Nanyin retains the charm of Tang and Song music."
-}
+},
 {
     name: "西安鼓乐",
     en: "Xi'an Drum Music",
@@ -1374,7 +1368,7 @@ const ichData = [
     desc: "黄杨木质地坚韧细腻，适合精雕人物，小巧精致。",
     example_cn: "黄杨木雕是中国四大木雕流派之一。",
     example_en: "Boxwood carving is one of the four major wood carving schools in China."
-}
+},
 {
     name: "潮州木雕",
     en: "Chaozhou Wood Carving",
@@ -2034,7 +2028,7 @@ const ichData = [
     desc: "多种山珍海味煨制，汤浓味鲜，闽菜头牌菜。",
     example_cn: "佛跳墙是福建菜的顶级代表。",
     example_en: "Buddha Jumps Over the Wall is the top dish of Fujian cuisine."
-}
+},
 {
     name: "沙县小吃制作技艺",
     en: "Shaxian Snack Making Skills",
@@ -2683,7 +2677,7 @@ const ichData = [
     desc: "鼓楼、风雨桥，全木榫卯，不用一钉，世界建筑奇迹。",
     example_cn: "侗族木构建筑是中国少数民族建筑瑰宝。",
     example_en: "Dong Wooden Architecture is a treasure of Chinese ethnic minority architecture."
-}
+},
 {
     name: "傣族慢轮制陶",
     en: "Dai Slow-Wheel Pottery Making",
@@ -3343,7 +3337,7 @@ const ichData = [
     desc: "祭祀人类始祖女娲，求子祈福，上古神话信仰。",
     example_cn: "女娲祭典传承了中华民族上古创世神话。",
     example_en: "Nüwa Worship Ceremony inherits ancient Chinese creation myths."
-}
+},
 {
     name: "炎帝祭典",
     en: "Yan Emperor Worship Ceremony",
@@ -3970,7 +3964,7 @@ const ichData = [
     desc: "景颇族最盛大集体舞，目瑙示栋，万人同舞。",
     example_cn: "目瑙纵歌是景颇族最隆重的节日盛典。",
     example_en: "Munao Dance is the grandest festival celebration of Jingpo people."
-}
+},
 {
     name: "佤族木鼓舞",
     en: "Wa Wooden Drum Dance",
@@ -4233,7 +4227,7 @@ const ichData = [
     region: "安徽徽州",
     desc: "松烟、油烟制墨，色泽黑润，书画文房之宝。",
     example_cn: "徽墨素有“一点如漆”的美誉。",
-    example_en: "Hui Ink Cake is known as "black as paint"."
+    example_en: 'Hui Ink Cake is known as "black as paint".'
 },
 {
     name: "端砚制作技艺",
@@ -4596,7 +4590,7 @@ const ichData = [
     region: "江苏南京",
     desc: "四大名锦之首，皇家御用，妆花技艺，华贵无比。",
     example_cn: "云锦有“寸锦寸金”的美誉。",
-    example_en: "Yun Brocade is known as "an inch of brocade is worth an inch of gold"."
+    example_en: 'Yun Brocade is known as "an inch of brocade is worth an inch of gold".'
 },
 {
     name: "壮锦织造技艺",
@@ -5290,7 +5284,7 @@ const ichData = [
     "desc": "禅宗武术，内外兼修，拳术、器械，中华武术象征。",
     "example_cn": "少林功夫是中华武术的第一品牌。",
     "example_en": "Shaolin Kung Fu is the top brand of Chinese martial arts."
-}
+},
 {
     "name": "花丝镶嵌制作技艺",
     "en": "Filigree Inlay Craft",
@@ -5510,7 +5504,7 @@ const ichData = [
     "desc": "算盘运算，古代计算机，非遗世界记忆项目。",
     "example_cn": "珠算是中国古代伟大的数学发明。",
     "example_en": "Abacus calculation is a great ancient Chinese math invention."
-}
+},
 {
     "name": "木拱桥营造技艺",
     "en": "Wooden Arch Bridge Construction",
@@ -5730,7 +5724,7 @@ const ichData = [
     "desc": "五味甘露药浴，调理身心，世界非遗项目。",
     "example_cn": "藏医药浴法是藏族传统医学的特色疗法。",
     "example_en": "Tibetan Medicinal Bath is a characteristic therapy of Tibetan traditional medicine."
-}
+},
 {
     "name": "京剧",
     "en": "Peking Opera",
@@ -5916,7 +5910,7 @@ const ichData = [
     "region": "贵州",
     "desc": "八种乐器合奏演唱，坐式表演，布依族曲艺瑰宝。",
     "example_cn": "八音坐唱被誉为布依族的“戏中戏”。",
-    "example_en": "Eight-Tone Sitting Singing is known as the "play within a play" of Buyi people."
+    "example_en": 'Eight-Tone Sitting Singing is known as the "play within a play" of Buyi people.'
 },
 {
     "name": "土家织锦技艺",
@@ -5950,7 +5944,7 @@ const ichData = [
     "desc": "水族新年，祭祖、赛马、铜鼓、歌舞，水族最重大节日。",
     "example_cn": "端节是水族人民辞旧迎新的传统佳节。",
     "example_en": "Duan Festival is a traditional festival for Shui people to celebrate the new year."
-}
+},
 {
     "name": "昆曲",
     "en": "Kunqu Opera",
@@ -6170,7 +6164,7 @@ const ichData = [
     "desc": "天下第一鼓，粗犷豪迈，群体表演，震撼人心。",
     "example_cn": "安塞腰鼓展现了陕北人民的豪迈性格。",
     "example_en": "Ansai waist drum shows the bold character of northern Shaanxi people."
-}
+},
 {
     "name": "二十四节气",
     "en": "The 24 Solar Terms",
@@ -6312,7 +6306,7 @@ const ichData = [
     "region": "安徽徽州",
     "desc": "松烟、油烟制墨，色泽黑润、经久不褪，文房珍品。",
     "example_cn": "徽墨素有“一点如漆、万载存真”之誉。",
-    "example_en": "Hui ink sticks are praised as "black as paint, lasting forever"."
+    "example_en": 'Hui ink sticks are praised as "black as paint, lasting forever".'
 },
 {
     "name": "端砚制作技艺",
@@ -6390,7 +6384,7 @@ const ichData = [
     "desc": "象形取意、简洁刚猛，与太极、八卦并称三大内家拳。",
     "example_cn": "形意拳是注重实战与内功的传统拳种。",
     "example_en": "Xingyi Quan is a traditional boxing focusing on actual combat and internal skill."
-}
+},
 {
     "name": "八卦掌",
     "en": "Baguazhang",
@@ -6610,7 +6604,7 @@ const ichData = [
     "desc": "以意念引导、站桩为核心，注重精神与力量的统一{insert\_element\_19\_}。",
     "example_cn": "意拳强调“意在拳先、以意导气、以气驭力”。",
     "example_en": "Yiquan emphasizes 'mind before movement, guiding force with spirit'."
-}
+},
 {
     "name": "北京绢花",
     "en": "Beijing Silk Flowers",
@@ -6830,7 +6824,7 @@ const ichData = [
     "desc": "机械钟表拆解、清洗、校准、修复，精密传统手艺。",
     "example_cn": "钟表修复需要极强的耐心与精细手法。",
     "example_en": "Clock restoration requires great patience and precision."
-}
+},
 {
     "name": "陕北说书",
     "en": "Northern Shaanxi Storytelling",
@@ -7160,7 +7154,7 @@ const ichData = [
     "desc": "干栏式竹楼，通风防潮，适应热带气候。",
     "example_cn": "傣族竹楼是适应自然的生态民居。",
     "example_en": "Dai Bamboo House is an ecological dwelling adapting to nature."
-}
+},
 {
     "name": "平遥推光漆器制作技艺",
     "en": "Pingyao Polished Lacquerware Craft",
@@ -7490,7 +7484,7 @@ const ichData = [
     "desc": "丰收祭祀、歌舞、狩猎文化展示。",
     "example_cn": "丰年祭是高山族最隆重的传统节庆。",
     "example_en": "Harvest Festival is the most important festival of Gaoshan people."
-}
+},
 {
     "name": "绛州鼓乐",
     "en": "Jiangzhou Drum Music",
@@ -7820,7 +7814,7 @@ const ichData = [
     "desc": "药线点燃点灸穴位，壮医特色外治疗法。",
     "example_cn": "壮医药线点灸是壮医最具特色的疗法之一。",
     "example_en": "Zhuang thread moxibustion is a unique ethnic therapy."
-}
+},
 {
     "name": "维医药疗法",
     "en": "Uyghur Medicine Therapy",
@@ -8260,7 +8254,7 @@ const ichData = [
     "desc": "由曲艺发展而来，唱腔婉转，擅长生活小戏。",
     "example_cn": "曲剧是贴近百姓日常生活的新兴剧种。",
     "example_en": "Quju Opera is a modern opera close to people's daily life."
-}
+},
 {
     "name": "楚剧",
     "en": "Chu Opera",
@@ -8700,7 +8694,7 @@ const ichData = [
     "desc": "唐代宫廷音乐遗存，大型吹打乐，古朴厚重。",
     "example_cn": "西安鼓乐被誉为“古代交响乐”。",
     "example_en": "Xi'an Drum Music is known as ancient Chinese symphony."
-}
+},
 {
     "name": "八极拳",
     "en": "Baji Quan",
@@ -9140,7 +9134,7 @@ const ichData = [
     "desc": "木板板凳连接成龙，集体舞动，气势壮观。",
     "example_cn": "板凳龙是乡村集体参与的大型龙舞。",
     "example_en": "Bench dragon dance is a grand group folk dance."
-}
+},
 {
     "name": "毛南族肥套",
     "en": "Maonan Feitao Ritual",
@@ -9580,7 +9574,7 @@ const ichData = [
     "desc": "雕、刻、漆、金结合，金碧辉煌，潮汕建筑装饰一绝。",
     "example_cn": "金漆木雕是岭南建筑装饰艺术瑰宝。",
     "example_en": "Gold lacquer wood carving is a Lingnan architectural treasure."
-}
+},
 {
     "name": "寿山石雕",
     "en": "Shoushan Stone Carving",
@@ -10020,7 +10014,7 @@ const ichData = [
     "desc": "傣族民间歌舞与戏曲结合，柔美抒情，异域风情。",
     "example_cn": "傣剧充满东南亚风情与傣族文化韵味。",
     "example_en": "Dai Opera is full of Southeast Asian and Dai cultural charm."
-}
+},
 {
     "name": "佤族木鼓舞",
     "en": "Va Wooden Drum Dance",
@@ -10460,7 +10454,7 @@ const ichData = [
     "desc": "依山而建、半吊半空，苗族、土家族特色民居。",
     "example_cn": "吊脚楼是西南山地民族的智慧民居。",
     "example_en": "Diaojiaolou is a smart house of southwest mountain ethnic groups."
-}
+},
 {
     "name": "苏州评弹",
     "en": "Suzhou Pingtan",
@@ -10900,7 +10894,7 @@ const ichData = [
     "desc": "粽叶包糯米，甜咸各异，端午传统食品。",
     "example_cn": "粽子是端午节最具代表性的食物。",
     "example_en": "Zongzi is the most representative food of Dragon Boat Festival."
-}
+},
 {
     "name": "莆田木雕",
     "en": "Putian Wood Carving",
@@ -11340,7 +11334,7 @@ const ichData = [
     "desc": "快板顺口溜，即兴押韵，街头市井说唱。",
     "example_cn": "数来宝是快板艺术的早期形式。",
     "example_en": "It is an early form of Chinese kuaiban art."
-}
+},
 {
     "name": "莆田木雕",
     "en": "Putian Wood Carving",
@@ -11782,37 +11776,47 @@ const ichData = [
     "example_en": "It is an early form of Chinese kuaiban art."
 }
 ];
-const searchInput = document.getElementById('search');
-const resultDiv = document.getElementById('result');
 
-searchInput.addEventListener('input', function() {
-  const keyword = this.value.toLowerCase().trim();
-  if (!keyword) {
-    resultDiv.innerHTML = '';
+// --------------------------
+// 2. 固定代码（已修正所有错误）
+// --------------------------
+const searchInput = document.getElementById('searchInput');
+const resultContainer = document.getElementById('resultContainer');
+
+searchInput.addEventListener('input', function () {
+  const kw = this.value.trim().toLowerCase();
+  resultContainer.innerHTML = '';
+
+  if (!kw) {
+    resultContainer.innerHTML = '<div class="empty-state">输入关键词，即可搜索非遗词条</div>';
     return;
   }
 
   const filtered = ichData.filter(item => {
     const name = (item.name || '').toLowerCase();
     const en = (item.en || '').toLowerCase();
-    const phonetic = ((item.phonetic_uk || '') + (item.phonetic_us || '')).toLowerCase();
-    return name.includes(keyword) || en.includes(keyword) || phonetic.includes(keyword);
+    const phonetic = ((item.phonetic_uk || '') + ' ' + (item.phonetic_us || '')).toLowerCase();
+    const desc = (item.desc || '').toLowerCase();
+    return name.includes(kw) || en.includes(kw) || phonetic.includes(kw) || desc.includes(kw);
   });
 
   if (filtered.length === 0) {
-    resultDiv.innerHTML = '<p style="text-align:center;color:#666;">未找到相关非遗词汇</p>';
+    resultContainer.innerHTML = '<div class="empty-state">未找到相关非遗词汇，请尝试其他关键词</div>';
     return;
   }
 
-  resultDiv.innerHTML = filtered.map(item => `
-    <div style="background:white;padding:16px;border-radius:10px;margin-bottom:10px;">
-      <div style="font-size:17px;font-weight:bold;">${item.name}</div>
-      <div style="color:#666;margin:4px 0;">${item.en}</div>
-      <div style="font-size:14px;color:#999;">${item.type} | ${item.region}</div>
-    </div>
-  `).join('');
+  filtered.forEach(item => {
+    const div = document.createElement('div');
+    div.className = 'result-item';
+    div.innerHTML = `
+      <div class="result-name">${item.name}</div>
+      <div class="result-en">${item.en}</div>
+      <span class="result-tag">${item.type}</span>
+      <span class="result-tag">${item.region}</span>
+    `;
+    resultContainer.appendChild(div);
+  });
 });
 </script>
-
 </body>
 </html>
