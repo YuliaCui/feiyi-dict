@@ -20,7 +20,6 @@
   --text: #222222;
   --gray: #666;
   --light-gray: #e9ecef;
-  --accent: #c9a87e;
 }
 body {
   font-family: "PingFang SC", "Microsoft YaHei", sans-serif;
@@ -385,8 +384,6 @@ body {
   <div>© 2026 译通非遗 版权所有 | 仅限学习与学术使用</div>
   <div class="footer-small">商务与学术合作 | 邮箱：3201973524@qq.com</div>
 </div>
-
-<!-- 你的词条代码写在这里，不要动 -->
 // 完整非遗词条库（10大类、1000+条，专业英译+音标+例句）
 const ichData = [
 {
@@ -12095,41 +12092,41 @@ const ichData = [
 }
 ];
 <script>
-// 全局变量（直接用你现有的 ichData）
+// 全局变量（直接读取你写的 ichData）
 let allData = ichData;
 let lang = 'zh';
 let favorites = JSON.parse(localStorage.getItem('fav') || '[]');
 let history = JSON.parse(localStorage.getItem('history') || '[]');
 
-// 提取数据中的拼音（如果没有，用汉字拼音首字母，这里用名称首字拼音首字母做简化）
-function getFirstLetter(name) {
+// 提取数据中的拼音首字母（用于中文拼音排序）
+function getFirstPinyinLetter(name) {
   const firstChar = name.charAt(0);
-  // 这里用简化的首字母处理，你如果有完整拼音字段可以替换
-  const map = {
+  const pinyinMap = {
     '昆':'K', '京':'J', '北':'B', '南':'N', '上':'S', '江':'J', '浙':'Z', '苏':'S', '广':'G', '福':'F', '川':'C', '陕':'S', '云':'Y', '贵':'G', '辽':'L', '吉':'J', '黑':'H', '新':'X', '藏':'Z', '青':'Q', '甘':'G', '宁':'N', '内':'N', '台':'T', '港':'G', '澳':'A'
   };
-  return map[firstChar] || firstChar;
+  return pinyinMap[firstChar] || firstChar.toUpperCase();
 }
 
-// 提取省份
-function getRegions() {
+// 提取所有不重复的非遗类别
+function getUniqueTypes() {
+  const types = new Set();
+  allData.forEach(item => types.add(item.type));
+  return Array.from(types);
+}
+
+// 提取所有不重复的省份
+function getUniqueRegions() {
   const regions = new Set();
   allData.forEach(item => {
     if (item.region && item.region !== '全国') {
+      // 拆分多地区（如“江苏、浙江、上海”）
       item.region.split(/[、,]/).forEach(r => regions.add(r.trim()));
     }
   });
   return Array.from(regions);
 }
 
-// 提取类型
-function getTypes() {
-  const types = new Set();
-  allData.forEach(item => types.add(item.type));
-  return Array.from(types);
-}
-
-// 语言切换
+// 语言切换功能
 document.getElementById('langBtn').onclick = () => {
   lang = lang === 'zh' ? 'en' : 'zh';
   document.getElementById('langBtn').textContent = lang === 'zh' ? 'EN' : '中文';
@@ -12147,7 +12144,7 @@ document.querySelectorAll('.nav-page').forEach(el => {
   };
 });
 
-// 四大卡片跳转
+// 四大卡片点击跳转
 document.querySelectorAll('.big-card').forEach(card => {
   card.onclick = () => {
     const go = card.dataset.go;
@@ -12157,15 +12154,15 @@ document.querySelectorAll('.big-card').forEach(card => {
 
     if (go === 'category-type') {
       document.getElementById('catType').style.display = 'block';
-      renderTypeBtns();
+      renderTypeButtons();
     }
     if (go === 'category-alpha') {
       document.getElementById('catAlpha').style.display = 'block';
-      renderAlphaBtns();
+      renderAlphabetButtons('cn');
     }
     if (go === 'category-region') {
       document.getElementById('catRegion').style.display = 'block';
-      renderRegionBtns();
+      renderRegionButtons();
     }
     if (go === 'category-hot') {
       document.getElementById('catHot').style.display = 'block';
@@ -12174,76 +12171,74 @@ document.querySelectorAll('.big-card').forEach(card => {
   };
 });
 
-// 渲染类型按钮
-function renderTypeBtns() {
-  const types = getTypes();
+// 渲染【类别分类】的10个按钮
+function renderTypeButtons() {
+  const types = getUniqueTypes();
   const container = document.getElementById('typeBtns');
   container.innerHTML = types.map(type => `<button class="class-btn" data-type="${type}">${type}</button>`).join('');
+  
   container.querySelectorAll('.class-btn').forEach(btn => {
     btn.onclick = () => {
-      const type = btn.dataset.type;
-      const filtered = allData.filter(item => item.type === type);
-      renderEntryList(filtered, 'typeList');
+      const selectedType = btn.dataset.type;
+      const filtered = allData.filter(item => item.type === selectedType);
+      renderEntryCards(filtered, 'typeList');
       container.querySelectorAll('.class-btn').forEach(b => b.classList.remove('active'));
       btn.classList.add('active');
     };
   });
 }
 
-// 渲染拼音按钮
-let alphaMode = 'cn';
-function renderAlphaBtns() {
-  const letters = alphaMode === 'cn' ? 'ABCDEFGHIJKLMNOPQRSTUVWXYZ'.split('') : 'ABCDEFGHIJKLMNOPQRSTUVWXYZ'.split('');
+// 渲染【拼音排序】的字母按钮
+let currentAlphaMode = 'cn';
+function renderAlphabetButtons(mode) {
+  currentAlphaMode = mode;
+  const letters = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ'.split('');
   const container = document.getElementById('alphaGroup');
   container.innerHTML = letters.map(l => `<button class="alpha-btn" data-letter="${l}">${l}</button>`).join('');
+  
   container.querySelectorAll('.alpha-btn').forEach(btn => {
     btn.onclick = () => {
       const letter = btn.dataset.letter;
       let filtered;
-      if (alphaMode === 'cn') {
-        filtered = allData.filter(item => getFirstLetter(item.name).toUpperCase() === letter);
+      if (mode === 'cn') {
+        filtered = allData.filter(item => getFirstPinyinLetter(item.name) === letter);
       } else {
         filtered = allData.filter(item => item.en.toUpperCase().startsWith(letter));
       }
-      renderEntryList(filtered, 'alphaList');
+      renderEntryCards(filtered, 'alphaList');
     };
   });
 }
 
 // 拼音模式切换
-document.getElementById('switchCnPy').onclick = () => {
-  alphaMode = 'cn';
-  renderAlphaBtns();
-};
-document.getElementById('switchEnAbc').onclick = () => {
-  alphaMode = 'en';
-  renderAlphaBtns();
-};
+document.getElementById('switchCnPy').onclick = () => renderAlphabetButtons('cn');
+document.getElementById('switchEnAbc').onclick = () => renderAlphabetButtons('en');
 
-// 渲染地区按钮
-function renderRegionBtns() {
-  const regions = getRegions();
+// 渲染【地区分类】的省份按钮
+function renderRegionButtons() {
+  const regions = getUniqueRegions();
   const container = document.getElementById('regionBtns');
   container.innerHTML = regions.map(r => `<button class="region-btn" data-region="${r}">${r}</button>`).join('');
+  
   container.querySelectorAll('.region-btn').forEach(btn => {
     btn.onclick = () => {
-      const region = btn.dataset.region;
-      const filtered = allData.filter(item => item.region && item.region.includes(region));
-      renderEntryList(filtered, 'regionList');
+      const selectedRegion = btn.dataset.region;
+      const filtered = allData.filter(item => item.region && item.region.includes(selectedRegion));
+      renderEntryCards(filtered, 'regionList');
       container.querySelectorAll('.region-btn').forEach(b => b.classList.remove('active'));
       btn.classList.add('active');
     };
   });
 }
 
-// 渲染热门列表（取前10条）
+// 渲染【热门程度】列表（取前10条）
 function renderHotList() {
-  const hot = allData.slice(0, 10);
-  renderEntryList(hot, 'hotList');
+  const hotData = allData.slice(0, 10);
+  renderEntryCards(hotData, 'hotList');
 }
 
-// 渲染词条列表
-function renderEntryList(data, containerId) {
+// 渲染词条卡片
+function renderEntryCards(data, containerId) {
   const container = document.getElementById(containerId);
   if (!container) return;
 
@@ -12252,8 +12247,8 @@ function renderEntryList(data, containerId) {
     return;
   }
 
-  container.innerHTML = data.map((item, i) => `
-    <div class="entry-card" data-i="${i}">
+  container.innerHTML = data.map((item, index) => `
+    <div class="entry-card" data-index="${index}">
       <div class="entry-name">${item.name}</div>
       <div class="entry-en en-font">${item.en}</div>
       <div>
@@ -12263,47 +12258,47 @@ function renderEntryList(data, containerId) {
     </div>
   `).join('');
 
-  container.querySelectorAll('.entry-card').forEach((el, i) => {
-    el.onclick = () => showDetail(data[i]);
+  container.querySelectorAll('.entry-card').forEach((card, i) => {
+    card.onclick = () => showDetailPage(data[i]);
   });
 }
 
-// 搜索（实时）
+// 实时搜索功能
 document.getElementById('searchInput').addEventListener('input', (e) => {
-  const kw = e.target.value.trim().toLowerCase();
-  const area = document.getElementById('resultArea');
-  const list = document.getElementById('resultList');
+  const keyword = e.target.value.trim().toLowerCase();
+  const resultArea = document.getElementById('resultArea');
+  const resultList = document.getElementById('resultList');
 
-  if (!kw) {
-    area.style.display = 'none';
-    list.innerHTML = '';
+  if (!keyword) {
+    resultArea.style.display = 'none';
+    resultList.innerHTML = '';
     return;
   }
 
-  area.style.display = 'block';
-  const matched = allData.filter(item => {
+  resultArea.style.display = 'block';
+  const matchedData = allData.filter(item => {
     const name = (item.name || '').toLowerCase();
     const en = (item.en || '').toLowerCase();
-    const phon = ((item.phonetic_uk || '') + ' ' + (item.phonetic_us || '')).toLowerCase();
+    const phonetic = ((item.phonetic_uk || '') + ' ' + (item.phonetic_us || '')).toLowerCase();
     const desc = (item.desc || '').toLowerCase();
-    return name.includes(kw) || en.includes(kw) || phon.includes(kw) || desc.includes(kw);
+    return name.includes(keyword) || en.includes(keyword) || phonetic.includes(keyword) || desc.includes(keyword);
   });
 
-  if (matched.length === 0) {
-    list.innerHTML = `<div class="empty-tip">未找到相关非遗词汇，请尝试其他关键词</div>`;
+  if (matchedData.length === 0) {
+    resultList.innerHTML = `<div class="empty-tip">未找到相关非遗词汇，请尝试其他关键词</div>`;
     return;
   }
 
-  renderEntryList(matched, 'resultList');
+  renderEntryCards(matchedData, 'resultList');
 });
 
-// 显示详情
-function showDetail(item) {
+// 显示词条详情页
+function showDetailPage(item) {
   document.querySelectorAll('.page').forEach(p => p.classList.remove('active'));
   document.getElementById('detail').style.display = 'block';
   addToHistory(item);
 
-  const isFav = favorites.some(x => x.name === item.name);
+  const isFavorited = favorites.some(x => x.name === item.name);
   document.getElementById('detailContent').innerHTML = `
     <div class="detail-title">${item.name}</div>
     <div class="detail-en en-font">${item.en}</div>
@@ -12328,46 +12323,48 @@ function showDetail(item) {
       <p class="en-font">${item.example_en}</p>
     </div>
     <div class="detail-actions">
-      <button class="detail-btn" id="favBtn">${isFav ? '取消收藏' : '收藏'}</button>
+      <button class="detail-btn" id="favBtn">${isFavorited ? '取消收藏' : '收藏'}</button>
       <button class="detail-btn" id="shareBtn">复制链接</button>
     </div>
   `;
 
-  document.getElementById('favBtn').onclick = () => toggleFav(item);
+  document.getElementById('favBtn').onclick = () => toggleFavorite(item);
   document.getElementById('shareBtn').onclick = () => {
     navigator.clipboard.writeText(window.location.href);
-    alert(lang==='zh'?'已复制链接':'Link copied');
+    alert(lang === 'zh' ? '已复制链接' : 'Link copied');
   };
 }
 
-// 收藏
-function toggleFav(item) {
-  const idx = favorites.findIndex(x => x.name === item.name);
-  if (idx === -1) favorites.push(item);
-  else favorites.splice(idx, 1);
+// 收藏功能
+function toggleFavorite(item) {
+  const index = favorites.findIndex(x => x.name === item.name);
+  if (index === -1) {
+    favorites.push(item);
+  } else {
+    favorites.splice(index, 1);
+  }
   localStorage.setItem('fav', JSON.stringify(favorites));
-  showDetail(item);
+  showDetailPage(item);
 }
 
-// 历史
+// 浏览历史功能
 function addToHistory(item) {
-  const idx = history.findIndex(x => x.name === item.name);
-  if (idx !== -1) history.splice(idx, 1);
+  const index = history.findIndex(x => x.name === item.name);
+  if (index !== -1) {
+    history.splice(index, 1);
+  }
   history.unshift(item);
-  if (history.length > 30) history = history.slice(0, 30);
+  if (history.length > 30) {
+    history = history.slice(0, 30);
+  }
   localStorage.setItem('history', JSON.stringify(history));
 }
 
-// 返回
+// 返回首页
 document.getElementById('backBtn').onclick = () => {
   document.getElementById('detail').style.display = 'none';
   document.getElementById('home').classList.add('active');
 };
-
-// 初始化（加载类型、地区等数据）
-document.addEventListener('DOMContentLoaded', () => {
-  // 可以在这里预加载一些数据，不影响使用
-});
 </script>
 
 </body>
