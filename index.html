@@ -262,12 +262,23 @@ body {
   border-radius: 4px;
   cursor: pointer;
 }
-.region-select {
-  width: 100%;
-  padding: 10px 12px;
-  border-radius: 6px;
-  border: 1px solid #ddd;
+.region-list {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
   margin-bottom: 20px;
+}
+.region-btn {
+  padding: 8px 12px;
+  background: white;
+  border: 1px solid #ddd;
+  border-radius: 6px;
+  cursor: pointer;
+}
+.region-btn.active {
+  background: var(--main);
+  color: white;
+  border-color: var(--main);
 }
 
 /* 底部 */
@@ -301,8 +312,7 @@ body {
 <div class="header">
   <div class="site-title">译通非遗 · 非遗英译专业辞典</div>
   <div class="nav">
-    <a href="#" class="nav-page" data-target="home">首页</a>
-    <a href="#" class="nav-page" data-target="category">分类浏览</a>
+    <a href="#" class="nav-page active" data-target="home">首页</a>
     <button class="lang-switch" id="langBtn">EN</button>
   </div>
 </div>
@@ -352,9 +362,7 @@ body {
 
     <!-- 地区 -->
     <div id="catRegion" style="display:none;">
-      <select class="region-select" id="provinceSelect">
-        <option value="">选择省份</option>
-      </select>
+      <div class="region-list" id="regionBtns"></div>
       <div id="regionList"></div>
     </div>
 
@@ -378,168 +386,7 @@ body {
   <div class="footer-small">商务与学术合作 | 邮箱：3201973524@qq.com</div>
 </div>
 
-<script>
-// 全局
-let allData = [];
-let lang = 'zh';
-let favorites = JSON.parse(localStorage.getItem('fav') || '[]');
-let history = JSON.parse(localStorage.getItem('history') || '[]');
-
-// 加载数据
-async function loadData() {
-  try {
-    const res = await fetch('./data.json');
-    allData = await res.json();
-  } catch (e) {
-    console.error('数据加载失败', e);
-  }
-}
-
-// 语言切换
-document.getElementById('langBtn').onclick = () => {
-  lang = lang === 'zh' ? 'en' : 'zh';
-  document.getElementById('langBtn').textContent = lang === 'zh' ? 'EN' : '中文';
-  document.querySelector('.search-box').placeholder = lang === 'zh' ? '输入中文、英文、拼音、音标搜索' : 'Search CN/EN/Pinyin/Phonetic';
-  document.getElementById('categoryTitle').textContent = lang === 'zh' ? '分类浏览' : 'Categories';
-};
-
-// 导航切换
-document.querySelectorAll('.nav-page').forEach(el => {
-  el.onclick = (e) => {
-    e.preventDefault();
-    document.querySelectorAll('.page').forEach(p => p.classList.remove('active'));
-    const target = el.dataset.target;
-    document.getElementById(target).classList.add('active');
-  };
-});
-
-// 四大卡片跳转
-document.querySelectorAll('.big-card').forEach(card => {
-  card.onclick = () => {
-    const go = card.dataset.go;
-    document.querySelectorAll('.page').forEach(p => p.classList.remove('active'));
-    document.getElementById('category').classList.add('active');
-    document.querySelectorAll('#catType,#catAlpha,#catRegion,#catHot').forEach(d => d.style.display = 'none');
-
-    if (go === 'category-type') document.getElementById('catType').style.display = 'block';
-    if (go === 'category-alpha') document.getElementById('catAlpha').style.display = 'block';
-    if (go === 'category-region') document.getElementById('catRegion').style.display = 'block';
-    if (go === 'category-hot') document.getElementById('catHot').style.display = 'block';
-  };
-});
-
-// 搜索（实时）
-document.getElementById('searchInput').addEventListener('input', (e) => {
-  const kw = e.target.value.trim().toLowerCase();
-  const area = document.getElementById('resultArea');
-  const list = document.getElementById('resultList');
-
-  if (!kw) {
-    area.style.display = 'none';
-    list.innerHTML = '';
-    return;
-  }
-
-  area.style.display = 'block';
-  const matched = allData.filter(item => {
-    const name = (item.name || '').toLowerCase();
-    const en = (item.en || '').toLowerCase();
-    const py = (item.pinyin || '').toLowerCase();
-    const phon = (item.phonetic_uk + ' ' + item.phonetic_us || '').toLowerCase();
-    const desc = (item.desc || '').toLowerCase();
-    return name.includes(kw) || en.includes(kw) || py.includes(kw) || phon.includes(kw) || desc.includes(kw);
-  });
-
-  if (matched.length === 0) {
-    list.innerHTML = `<div class="empty-tip">未找到相关非遗词汇，请尝试其他关键词</div>`;
-    return;
-  }
-
-  list.innerHTML = matched.map((item, i) => `
-    <div class="entry-card" data-i="${i}">
-      <div class="entry-name">${item.name}</div>
-      <div class="entry-en en-font">${item.en}</div>
-      <div>
-        <span class="entry-tag">${item.type}</span>
-        <span class="entry-tag">${item.region}</span>
-      </div>
-    </div>
-  `).join('');
-
-  list.querySelectorAll('.entry-card').forEach((el, i) => {
-    el.onclick = () => showDetail(matched[i]);
-  });
-});
-
-// 显示详情
-function showDetail(item) {
-  document.querySelectorAll('.page').forEach(p => p.classList.remove('active'));
-  document.getElementById('detail').style.display = 'block';
-  addToHistory(item);
-
-  const isFav = favorites.some(x => x.name === item.name);
-  document.getElementById('detailContent').innerHTML = `
-    <div class="detail-title">${item.name}</div>
-    <div class="detail-en en-font">${item.en}</div>
-    <div class="detail-phonetic en-font">
-      英 /${item.phonetic_uk}/ 美 /${item.phonetic_us}/
-    </div>
-    <div class="detail-section">
-      <h4>${lang === 'zh' ? '非遗类别' : 'Category'}</h4>
-      <p>${item.type}</p>
-    </div>
-    <div class="detail-section">
-      <h4>${lang === 'zh' ? '简介' : 'Introduction'}</h4>
-      <p>${item.desc}</p>
-    </div>
-    <div class="detail-section">
-      <h4>${lang === 'zh' ? '双语例句' : 'Example'}</h4>
-      <p>${item.example_cn}</p>
-      <p class="en-font">${item.example_en}</p>
-    </div>
-    <div class="detail-actions">
-      <button class="detail-btn" id="favBtn">${isFav ? '取消收藏' : '收藏'}</button>
-      <button class="detail-btn" id="shareBtn">复制链接</button>
-    </div>
-  `;
-
-  document.getElementById('favBtn').onclick = () => toggleFav(item);
-  document.getElementById('shareBtn').onclick = () => {
-    navigator.clipboard.writeText(window.location.href);
-    alert(lang==='zh'?'已复制链接':'Link copied');
-  };
-}
-
-// 收藏
-function toggleFav(item) {
-  const idx = favorites.findIndex(x => x.name === item.name);
-  if (idx === -1) favorites.push(item);
-  else favorites.splice(idx, 1);
-  localStorage.setItem('fav', JSON.stringify(favorites));
-  showDetail(item);
-}
-
-// 历史
-function addToHistory(item) {
-  const idx = history.findIndex(x => x.name === item.name);
-  if (idx !== -1) history.splice(idx, 1);
-  history.unshift(item);
-  if (history.length > 30) history = history.slice(0, 30);
-  localStorage.setItem('history', JSON.stringify(history));
-}
-
-// 返回
-document.getElementById('backBtn').onclick = () => {
-  document.getElementById('detail').style.display = 'none';
-  document.getElementById('home').classList.add('active');
-};
-
-// 初始化
-loadData();
-</script>
-
-</body>
-</html>
+<!-- 你的词条代码写在这里，不要动 -->
 // 完整非遗词条库（10大类、1000+条，专业英译+音标+例句）
 const ichData = [
 {
@@ -12247,3 +12094,281 @@ const ichData = [
     "example_en": "It is an early form of Chinese kuaiban art."
 }
 ];
+<script>
+// 全局变量（直接用你现有的 ichData）
+let allData = ichData;
+let lang = 'zh';
+let favorites = JSON.parse(localStorage.getItem('fav') || '[]');
+let history = JSON.parse(localStorage.getItem('history') || '[]');
+
+// 提取数据中的拼音（如果没有，用汉字拼音首字母，这里用名称首字拼音首字母做简化）
+function getFirstLetter(name) {
+  const firstChar = name.charAt(0);
+  // 这里用简化的首字母处理，你如果有完整拼音字段可以替换
+  const map = {
+    '昆':'K', '京':'J', '北':'B', '南':'N', '上':'S', '江':'J', '浙':'Z', '苏':'S', '广':'G', '福':'F', '川':'C', '陕':'S', '云':'Y', '贵':'G', '辽':'L', '吉':'J', '黑':'H', '新':'X', '藏':'Z', '青':'Q', '甘':'G', '宁':'N', '内':'N', '台':'T', '港':'G', '澳':'A'
+  };
+  return map[firstChar] || firstChar;
+}
+
+// 提取省份
+function getRegions() {
+  const regions = new Set();
+  allData.forEach(item => {
+    if (item.region && item.region !== '全国') {
+      item.region.split(/[、,]/).forEach(r => regions.add(r.trim()));
+    }
+  });
+  return Array.from(regions);
+}
+
+// 提取类型
+function getTypes() {
+  const types = new Set();
+  allData.forEach(item => types.add(item.type));
+  return Array.from(types);
+}
+
+// 语言切换
+document.getElementById('langBtn').onclick = () => {
+  lang = lang === 'zh' ? 'en' : 'zh';
+  document.getElementById('langBtn').textContent = lang === 'zh' ? 'EN' : '中文';
+  document.querySelector('.search-box').placeholder = lang === 'zh' ? '输入中文、英文、拼音、音标搜索' : 'Search CN/EN/Pinyin/Phonetic';
+  document.getElementById('categoryTitle').textContent = lang === 'zh' ? '分类浏览' : 'Categories';
+};
+
+// 导航切换
+document.querySelectorAll('.nav-page').forEach(el => {
+  el.onclick = (e) => {
+    e.preventDefault();
+    document.querySelectorAll('.page').forEach(p => p.classList.remove('active'));
+    const target = el.dataset.target;
+    document.getElementById(target).classList.add('active');
+  };
+});
+
+// 四大卡片跳转
+document.querySelectorAll('.big-card').forEach(card => {
+  card.onclick = () => {
+    const go = card.dataset.go;
+    document.querySelectorAll('.page').forEach(p => p.classList.remove('active'));
+    document.getElementById('category').classList.add('active');
+    document.querySelectorAll('#catType,#catAlpha,#catRegion,#catHot').forEach(d => d.style.display = 'none');
+
+    if (go === 'category-type') {
+      document.getElementById('catType').style.display = 'block';
+      renderTypeBtns();
+    }
+    if (go === 'category-alpha') {
+      document.getElementById('catAlpha').style.display = 'block';
+      renderAlphaBtns();
+    }
+    if (go === 'category-region') {
+      document.getElementById('catRegion').style.display = 'block';
+      renderRegionBtns();
+    }
+    if (go === 'category-hot') {
+      document.getElementById('catHot').style.display = 'block';
+      renderHotList();
+    }
+  };
+});
+
+// 渲染类型按钮
+function renderTypeBtns() {
+  const types = getTypes();
+  const container = document.getElementById('typeBtns');
+  container.innerHTML = types.map(type => `<button class="class-btn" data-type="${type}">${type}</button>`).join('');
+  container.querySelectorAll('.class-btn').forEach(btn => {
+    btn.onclick = () => {
+      const type = btn.dataset.type;
+      const filtered = allData.filter(item => item.type === type);
+      renderEntryList(filtered, 'typeList');
+      container.querySelectorAll('.class-btn').forEach(b => b.classList.remove('active'));
+      btn.classList.add('active');
+    };
+  });
+}
+
+// 渲染拼音按钮
+let alphaMode = 'cn';
+function renderAlphaBtns() {
+  const letters = alphaMode === 'cn' ? 'ABCDEFGHIJKLMNOPQRSTUVWXYZ'.split('') : 'ABCDEFGHIJKLMNOPQRSTUVWXYZ'.split('');
+  const container = document.getElementById('alphaGroup');
+  container.innerHTML = letters.map(l => `<button class="alpha-btn" data-letter="${l}">${l}</button>`).join('');
+  container.querySelectorAll('.alpha-btn').forEach(btn => {
+    btn.onclick = () => {
+      const letter = btn.dataset.letter;
+      let filtered;
+      if (alphaMode === 'cn') {
+        filtered = allData.filter(item => getFirstLetter(item.name).toUpperCase() === letter);
+      } else {
+        filtered = allData.filter(item => item.en.toUpperCase().startsWith(letter));
+      }
+      renderEntryList(filtered, 'alphaList');
+    };
+  });
+}
+
+// 拼音模式切换
+document.getElementById('switchCnPy').onclick = () => {
+  alphaMode = 'cn';
+  renderAlphaBtns();
+};
+document.getElementById('switchEnAbc').onclick = () => {
+  alphaMode = 'en';
+  renderAlphaBtns();
+};
+
+// 渲染地区按钮
+function renderRegionBtns() {
+  const regions = getRegions();
+  const container = document.getElementById('regionBtns');
+  container.innerHTML = regions.map(r => `<button class="region-btn" data-region="${r}">${r}</button>`).join('');
+  container.querySelectorAll('.region-btn').forEach(btn => {
+    btn.onclick = () => {
+      const region = btn.dataset.region;
+      const filtered = allData.filter(item => item.region && item.region.includes(region));
+      renderEntryList(filtered, 'regionList');
+      container.querySelectorAll('.region-btn').forEach(b => b.classList.remove('active'));
+      btn.classList.add('active');
+    };
+  });
+}
+
+// 渲染热门列表（取前10条）
+function renderHotList() {
+  const hot = allData.slice(0, 10);
+  renderEntryList(hot, 'hotList');
+}
+
+// 渲染词条列表
+function renderEntryList(data, containerId) {
+  const container = document.getElementById(containerId);
+  if (!container) return;
+
+  if (data.length === 0) {
+    container.innerHTML = `<div class="empty-tip">暂无相关词条</div>`;
+    return;
+  }
+
+  container.innerHTML = data.map((item, i) => `
+    <div class="entry-card" data-i="${i}">
+      <div class="entry-name">${item.name}</div>
+      <div class="entry-en en-font">${item.en}</div>
+      <div>
+        <span class="entry-tag">${item.type}</span>
+        <span class="entry-tag">${item.region}</span>
+      </div>
+    </div>
+  `).join('');
+
+  container.querySelectorAll('.entry-card').forEach((el, i) => {
+    el.onclick = () => showDetail(data[i]);
+  });
+}
+
+// 搜索（实时）
+document.getElementById('searchInput').addEventListener('input', (e) => {
+  const kw = e.target.value.trim().toLowerCase();
+  const area = document.getElementById('resultArea');
+  const list = document.getElementById('resultList');
+
+  if (!kw) {
+    area.style.display = 'none';
+    list.innerHTML = '';
+    return;
+  }
+
+  area.style.display = 'block';
+  const matched = allData.filter(item => {
+    const name = (item.name || '').toLowerCase();
+    const en = (item.en || '').toLowerCase();
+    const phon = ((item.phonetic_uk || '') + ' ' + (item.phonetic_us || '')).toLowerCase();
+    const desc = (item.desc || '').toLowerCase();
+    return name.includes(kw) || en.includes(kw) || phon.includes(kw) || desc.includes(kw);
+  });
+
+  if (matched.length === 0) {
+    list.innerHTML = `<div class="empty-tip">未找到相关非遗词汇，请尝试其他关键词</div>`;
+    return;
+  }
+
+  renderEntryList(matched, 'resultList');
+});
+
+// 显示详情
+function showDetail(item) {
+  document.querySelectorAll('.page').forEach(p => p.classList.remove('active'));
+  document.getElementById('detail').style.display = 'block';
+  addToHistory(item);
+
+  const isFav = favorites.some(x => x.name === item.name);
+  document.getElementById('detailContent').innerHTML = `
+    <div class="detail-title">${item.name}</div>
+    <div class="detail-en en-font">${item.en}</div>
+    <div class="detail-phonetic en-font">
+      英 ${item.phonetic_uk || ''}  美 ${item.phonetic_us || ''}
+    </div>
+    <div class="detail-section">
+      <h4>${lang === 'zh' ? '非遗类别' : 'Category'}</h4>
+      <p>${item.type}</p>
+    </div>
+    <div class="detail-section">
+      <h4>${lang === 'zh' ? '地区' : 'Region'}</h4>
+      <p>${item.region}</p>
+    </div>
+    <div class="detail-section">
+      <h4>${lang === 'zh' ? '简介' : 'Introduction'}</h4>
+      <p>${item.desc}</p>
+    </div>
+    <div class="detail-section">
+      <h4>${lang === 'zh' ? '双语例句' : 'Example'}</h4>
+      <p>${item.example_cn}</p>
+      <p class="en-font">${item.example_en}</p>
+    </div>
+    <div class="detail-actions">
+      <button class="detail-btn" id="favBtn">${isFav ? '取消收藏' : '收藏'}</button>
+      <button class="detail-btn" id="shareBtn">复制链接</button>
+    </div>
+  `;
+
+  document.getElementById('favBtn').onclick = () => toggleFav(item);
+  document.getElementById('shareBtn').onclick = () => {
+    navigator.clipboard.writeText(window.location.href);
+    alert(lang==='zh'?'已复制链接':'Link copied');
+  };
+}
+
+// 收藏
+function toggleFav(item) {
+  const idx = favorites.findIndex(x => x.name === item.name);
+  if (idx === -1) favorites.push(item);
+  else favorites.splice(idx, 1);
+  localStorage.setItem('fav', JSON.stringify(favorites));
+  showDetail(item);
+}
+
+// 历史
+function addToHistory(item) {
+  const idx = history.findIndex(x => x.name === item.name);
+  if (idx !== -1) history.splice(idx, 1);
+  history.unshift(item);
+  if (history.length > 30) history = history.slice(0, 30);
+  localStorage.setItem('history', JSON.stringify(history));
+}
+
+// 返回
+document.getElementById('backBtn').onclick = () => {
+  document.getElementById('detail').style.display = 'none';
+  document.getElementById('home').classList.add('active');
+};
+
+// 初始化（加载类型、地区等数据）
+document.addEventListener('DOMContentLoaded', () => {
+  // 可以在这里预加载一些数据，不影响使用
+});
+</script>
+
+</body>
+</html>
