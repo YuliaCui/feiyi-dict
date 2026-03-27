@@ -4,40 +4,45 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>译通非遗 · 非遗英译专业辞典</title>
+<meta http-equiv="Cache-Control" content="no-cache, no-store, must-revalidate">
+<meta http-equiv="Pragma" content="no-cache">
+<meta http-equiv="Expires" content="0">
 <style>
 * {
   margin: 0;
   padding: 0;
   box-sizing: border-box;
-  transition: all 0.2s ease;
+}
+:root {
+  --main: #1a4a7e;
+  --bg: #f8f9fa;
+  --card: #ffffff;
+  --text: #222222;
+  --gray: #666;
+  --light-gray: #e9ecef;
+  --accent: #c9a87e;
 }
 body {
-  font-family: "Microsoft YaHei", sans-serif;
-  background: #f5f7fa;
-  color: #222;
+  font-family: "PingFang SC", "Microsoft YaHei", sans-serif;
+  background-color: var(--bg);
+  color: var(--text);
   line-height: 1.6;
 }
-.container {
-  max-width: 1000px;
-  margin: 0 auto;
-  padding: 0 15px;
+.en-font {
+  font-family: "Georgia", "Times New Roman", serif;
 }
 
-/* 头部 */
+/* 顶部 */
 .header {
-  background: #1a3b6e;
-  color: #fff;
-  padding: 15px 0;
-}
-.header .inner {
+  background-color: var(--main);
+  color: white;
+  padding: 16px 20px;
   display: flex;
   justify-content: space-between;
   align-items: center;
-  flex-wrap: wrap;
-  gap: 10px;
 }
-.logo {
-  font-size: 22px;
+.site-title {
+  font-size: 18px;
   font-weight: bold;
 }
 .nav {
@@ -45,144 +50,496 @@ body {
   gap: 20px;
 }
 .nav a {
-  color: #fff;
+  color: white;
   text-decoration: none;
+  font-size: 15px;
 }
-
-/* 搜索 */
-.search-section {
-  padding: 30px 0;
-  text-align: center;
-}
-.search-input {
-  width: 80%;
-  padding: 12px 20px;
-  border-radius: 30px;
-  border: 1px solid #ddd;
-  font-size: 16px;
-  outline: none;
-}
-.search-input:focus {
-  border-color: #1a3b6e;
-}
-
-/* 首页分类 */
-.default-cats {
-  display: grid;
-  grid-template-columns: repeat(2, 1fr);
-  gap: 15px;
-  margin-bottom: 40px;
-}
-.cat-box {
-  background: #fff;
-  padding: 20px;
-  border-radius: 12px;
-  box-shadow: 0 2px 8px rgba(0,0,0,0.05);
-  text-align: center;
+.lang-switch {
+  background: rgba(255,255,255,0.2);
+  color: white;
+  border: none;
+  padding: 4px 8px;
+  border-radius: 4px;
+  font-size: 12px;
   cursor: pointer;
 }
-.cat-box h3 {
-  margin-bottom: 8px;
-  color: #1a3b6e;
+
+/* 搜索区 */
+.search-section {
+  padding: 30px 20px;
+  max-width: 900px;
+  margin: 0 auto;
+}
+.search-box {
+  width: 100%;
+  padding: 14px 20px;
+  border: 1px solid #ddd;
+  border-radius: 50px;
+  font-size: 16px;
+  outline: none;
+  box-shadow: 0 2px 8px rgba(0,0,0,0.05);
+}
+.search-box:focus {
+  border-color: var(--main);
 }
 
-/* 卡片 */
-.card {
-  background: #fff;
-  border-radius: 12px;
-  padding: 20px;
-  margin-bottom: 15px;
-  box-shadow: 0 2px 8px rgba(0,0,0,0.05);
-  border-left: 4px solid #1a3b6e;
+/* 首页四大卡片 */
+.container {
+  max-width: 900px;
+  margin: 0 auto;
+  padding: 0 20px 40px;
 }
-.card-title {
-  font-size: 20px;
+.card-grid {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 16px;
+  margin-bottom: 30px;
+}
+.big-card {
+  background: var(--card);
+  border-radius: 12px;
+  padding: 24px 16px;
+  text-align: center;
+  box-shadow: 0 2px 10px rgba(0,0,0,0.05);
+  cursor: pointer;
+  transition: 0.2s;
+  font-weight: 500;
+  color: var(--main);
+}
+.big-card:hover {
+  background: var(--main);
+  color: white;
+}
+
+/* 结果区域 */
+.result-area {
+  display: none;
+}
+.result-title {
+  font-size: 16px;
+  margin-bottom: 12px;
+  color: var(--gray);
+}
+.empty-tip {
+  text-align: center;
+  padding: 40px 20px;
+  color: #999;
+  font-size: 14px;
+}
+
+/* 词条卡片 */
+.entry-card {
+  background: var(--card);
+  border-radius: 10px;
+  padding: 16px;
+  margin-bottom: 10px;
+  box-shadow: 0 1px 4px rgba(0,0,0,0.04);
+  cursor: pointer;
+}
+.entry-name {
+  font-size: 17px;
+  font-weight: bold;
+  margin-bottom: 4px;
+}
+.entry-en {
+  font-size: 15px;
+  color: var(--gray);
+  margin-bottom: 6px;
+}
+.entry-tag {
+  display: inline-block;
+  background: var(--light-gray);
+  color: var(--main);
+  font-size: 12px;
+  padding: 2px 6px;
+  border-radius: 4px;
+  margin-right: 6px;
+}
+
+/* 详情页 */
+.detail-page {
+  display: none;
+  padding: 20px;
+  max-width: 800px;
+  margin: 0 auto;
+}
+.detail-back {
+  margin-bottom: 16px;
+  padding: 8px 14px;
+  background: var(--main);
+  color: white;
+  border: none;
+  border-radius: 6px;
+  cursor: pointer;
+}
+.detail-box {
+  background: white;
+  border-radius: 12px;
+  padding: 24px;
+  box-shadow: 0 2px 10px rgba(0,0,0,0.06);
+}
+.detail-title {
+  font-size: 22px;
   font-weight: bold;
   margin-bottom: 8px;
 }
-.card-en {
-  font-size: 16px;
-  color: #333;
-  margin-bottom: 5px;
-}
-.card-phonetic {
-  color: #666;
-  font-size: 14px;
+.detail-en {
+  font-size: 17px;
+  color: var(--gray);
   margin-bottom: 12px;
 }
-.card-tag {
-  display: inline-block;
-  background: #e6b980;
-  padding: 3px 8px;
+.detail-phonetic {
+  font-size: 15px;
+  color: #555;
+  margin-bottom: 16px;
+}
+.detail-section {
+  margin-bottom: 18px;
+}
+.detail-section h4 {
+  font-size: 15px;
+  margin-bottom: 6px;
+  color: var(--main);
+}
+.detail-section p {
+  font-size: 15px;
+  color: #333;
+}
+.detail-actions {
+  display: flex;
+  gap: 10px;
+  margin-top: 20px;
+}
+.detail-btn {
+  padding: 8px 12px;
+  border: 1px solid var(--main);
+  background: white;
+  color: var(--main);
   border-radius: 6px;
-  font-size: 12px;
-  margin-right: 6px;
-}
-.card-desc {
-  margin: 12px 0;
-  color: #444;
-}
-.card-example {
-  background: #f8f9fa;
-  padding: 10px 15px;
-  border-left: 3px solid #1a3b6e;
-  margin: 10px 0;
+  cursor: pointer;
   font-size: 14px;
+}
+
+/* 分类页面 */
+.category-page {
+  display: none;
+}
+.page-title {
+  font-size: 18px;
+  margin-bottom: 16px;
+}
+.class-btns {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+  margin-bottom: 20px;
+}
+.class-btn {
+  padding: 8px 12px;
+  background: white;
+  border: 1px solid #ddd;
+  border-radius: 6px;
+  cursor: pointer;
+}
+.class-btn.active {
+  background: var(--main);
+  color: white;
+  border-color: var(--main);
+}
+.alphabet-group {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 6px;
+  margin-bottom: 20px;
+}
+.alpha-btn {
+  width: 32px;
+  height: 32px;
+  line-height: 32px;
+  text-align: center;
+  background: white;
+  border: 1px solid #ddd;
+  border-radius: 4px;
+  cursor: pointer;
+}
+.region-select {
+  width: 100%;
+  padding: 10px 12px;
+  border-radius: 6px;
+  border: 1px solid #ddd;
+  margin-bottom: 20px;
 }
 
 /* 底部 */
 .footer {
-  background: #1a3b6e;
-  color: #fff;
+  background-color: var(--main);
+  color: white;
   text-align: center;
-  padding: 20px 0;
-  margin-top: 30px;
+  padding: 16px 20px;
   font-size: 13px;
+  margin-top: 40px;
+}
+.footer-small {
+  font-size: 12px;
+  margin-top: 6px;
+  opacity: 0.8;
+}
+
+/* 通用 */
+.page {
+  display: none;
+}
+.page.active {
+  display: block;
 }
 </style>
 </head>
+
 <body>
 
+<!-- 顶部 -->
 <div class="header">
-  <div class="container inner">
-    <div class="logo">译通非遗 · 英译辞典</div>
-    <div class="nav">
-      <a href="#" class="home">首页</a>
-      <a href="#" class="category">分类</a>
-      <a href="#" class="collect">收藏</a>
-    </div>
+  <div class="site-title">译通非遗 · 非遗英译专业辞典</div>
+  <div class="nav">
+    <a href="#" class="nav-page" data-target="home">首页</a>
+    <a href="#" class="nav-page" data-target="category">分类浏览</a>
+    <button class="lang-switch" id="langBtn">EN</button>
   </div>
 </div>
 
+<!-- 搜索 -->
+<div class="search-section">
+  <input type="text" class="search-box" id="searchInput" placeholder="输入中文、英文、拼音、音标搜索">
+</div>
+
+<!-- 容器 -->
 <div class="container">
-  <div class="search-section">
-    <input type="text" class="search-input" id="searchInput" placeholder="搜索非遗词汇：中文 / 英文 / 类别">
-  </div>
 
-  <div id="homePage">
-    <div class="default-cats">
-      <div class="cat-box" data-type="传统技艺">传统技艺</div>
-      <div class="cat-box" data-type="传统美术">传统美术</div>
-      <div class="cat-box" data-type="传统戏剧">传统戏剧</div>
-      <div class="cat-box" data-type="传统音乐">传统音乐</div>
-      <div class="cat-box" data-type="传统舞蹈">传统舞蹈</div>
-      <div class="cat-box" data-type="民俗">民俗</div>
-      <div class="cat-box" data-type="传统体育">传统体育</div>
-      <div class="cat-box" data-type="传统医药">传统医药</div>
-      <div class="cat-box" data-type="民间文学">民间文学</div>
-      <div class="cat-box" data-type="曲艺">曲艺</div>
+  <!-- 首页 -->
+  <div class="page active" id="home">
+    <div class="card-grid">
+      <div class="big-card" data-go="category-type">类别分类</div>
+      <div class="big-card" data-go="category-alpha">拼音排序</div>
+      <div class="big-card" data-go="category-region">地区分类</div>
+      <div class="big-card" data-go="category-hot">热门程度</div>
+    </div>
+
+    <div class="result-area" id="resultArea">
+      <div class="result-title" id="resultTip">搜索结果</div>
+      <div id="resultList"></div>
     </div>
   </div>
 
-  <div id="resultPage" style="display:none;">
-    <div id="resultList"></div>
+  <!-- 分类总页 -->
+  <div class="page category-page" id="category">
+    <div class="page-title" id="categoryTitle">分类浏览</div>
+
+    <!-- 类别 -->
+    <div id="catType" style="display:none;">
+      <div class="class-btns" id="typeBtns"></div>
+      <div id="typeList"></div>
+    </div>
+
+    <!-- 拼音 -->
+    <div id="catAlpha" style="display:none;">
+      <div style="margin-bottom:10px;">
+        <button class="detail-btn" id="switchCnPy">中文拼音</button>
+        <button class="detail-btn" id="switchEnAbc">英文A-Z</button>
+      </div>
+      <div class="alphabet-group" id="alphaGroup"></div>
+      <div id="alphaList"></div>
+    </div>
+
+    <!-- 地区 -->
+    <div id="catRegion" style="display:none;">
+      <select class="region-select" id="provinceSelect">
+        <option value="">选择省份</option>
+      </select>
+      <div id="regionList"></div>
+    </div>
+
+    <!-- 热门 -->
+    <div id="catHot" style="display:none;">
+      <div id="hotList"></div>
+    </div>
   </div>
+
+  <!-- 详情页 -->
+  <div class="detail-page" id="detail">
+    <button class="detail-back" id="backBtn">返回</button>
+    <div class="detail-box" id="detailContent"></div>
+  </div>
+
 </div>
 
+<!-- 底部 -->
 <div class="footer">
-  <p>© 2026 译通非遗 | 1000+词条完整版 | 仅限学术使用</p>
+  <div>© 2026 译通非遗 版权所有 | 仅限学习与学术使用</div>
+  <div class="footer-small">商务与学术合作 | 邮箱：3201973524@qq.com</div>
 </div>
+
 <script>
+// 全局
+let allData = [];
+let lang = 'zh';
+let favorites = JSON.parse(localStorage.getItem('fav') || '[]');
+let history = JSON.parse(localStorage.getItem('history') || '[]');
+
+// 加载数据
+async function loadData() {
+  try {
+    const res = await fetch('./data.json');
+    allData = await res.json();
+  } catch (e) {
+    console.error('数据加载失败', e);
+  }
+}
+
+// 语言切换
+document.getElementById('langBtn').onclick = () => {
+  lang = lang === 'zh' ? 'en' : 'zh';
+  document.getElementById('langBtn').textContent = lang === 'zh' ? 'EN' : '中文';
+  document.querySelector('.search-box').placeholder = lang === 'zh' ? '输入中文、英文、拼音、音标搜索' : 'Search CN/EN/Pinyin/Phonetic';
+  document.getElementById('categoryTitle').textContent = lang === 'zh' ? '分类浏览' : 'Categories';
+};
+
+// 导航切换
+document.querySelectorAll('.nav-page').forEach(el => {
+  el.onclick = (e) => {
+    e.preventDefault();
+    document.querySelectorAll('.page').forEach(p => p.classList.remove('active'));
+    const target = el.dataset.target;
+    document.getElementById(target).classList.add('active');
+  };
+});
+
+// 四大卡片跳转
+document.querySelectorAll('.big-card').forEach(card => {
+  card.onclick = () => {
+    const go = card.dataset.go;
+    document.querySelectorAll('.page').forEach(p => p.classList.remove('active'));
+    document.getElementById('category').classList.add('active');
+    document.querySelectorAll('#catType,#catAlpha,#catRegion,#catHot').forEach(d => d.style.display = 'none');
+
+    if (go === 'category-type') document.getElementById('catType').style.display = 'block';
+    if (go === 'category-alpha') document.getElementById('catAlpha').style.display = 'block';
+    if (go === 'category-region') document.getElementById('catRegion').style.display = 'block';
+    if (go === 'category-hot') document.getElementById('catHot').style.display = 'block';
+  };
+});
+
+// 搜索（实时）
+document.getElementById('searchInput').addEventListener('input', (e) => {
+  const kw = e.target.value.trim().toLowerCase();
+  const area = document.getElementById('resultArea');
+  const list = document.getElementById('resultList');
+
+  if (!kw) {
+    area.style.display = 'none';
+    list.innerHTML = '';
+    return;
+  }
+
+  area.style.display = 'block';
+  const matched = allData.filter(item => {
+    const name = (item.name || '').toLowerCase();
+    const en = (item.en || '').toLowerCase();
+    const py = (item.pinyin || '').toLowerCase();
+    const phon = (item.phonetic_uk + ' ' + item.phonetic_us || '').toLowerCase();
+    const desc = (item.desc || '').toLowerCase();
+    return name.includes(kw) || en.includes(kw) || py.includes(kw) || phon.includes(kw) || desc.includes(kw);
+  });
+
+  if (matched.length === 0) {
+    list.innerHTML = `<div class="empty-tip">未找到相关非遗词汇，请尝试其他关键词</div>`;
+    return;
+  }
+
+  list.innerHTML = matched.map((item, i) => `
+    <div class="entry-card" data-i="${i}">
+      <div class="entry-name">${item.name}</div>
+      <div class="entry-en en-font">${item.en}</div>
+      <div>
+        <span class="entry-tag">${item.type}</span>
+        <span class="entry-tag">${item.region}</span>
+      </div>
+    </div>
+  `).join('');
+
+  list.querySelectorAll('.entry-card').forEach((el, i) => {
+    el.onclick = () => showDetail(matched[i]);
+  });
+});
+
+// 显示详情
+function showDetail(item) {
+  document.querySelectorAll('.page').forEach(p => p.classList.remove('active'));
+  document.getElementById('detail').style.display = 'block';
+  addToHistory(item);
+
+  const isFav = favorites.some(x => x.name === item.name);
+  document.getElementById('detailContent').innerHTML = `
+    <div class="detail-title">${item.name}</div>
+    <div class="detail-en en-font">${item.en}</div>
+    <div class="detail-phonetic en-font">
+      英 /${item.phonetic_uk}/ 美 /${item.phonetic_us}/
+    </div>
+    <div class="detail-section">
+      <h4>${lang === 'zh' ? '非遗类别' : 'Category'}</h4>
+      <p>${item.type}</p>
+    </div>
+    <div class="detail-section">
+      <h4>${lang === 'zh' ? '简介' : 'Introduction'}</h4>
+      <p>${item.desc}</p>
+    </div>
+    <div class="detail-section">
+      <h4>${lang === 'zh' ? '双语例句' : 'Example'}</h4>
+      <p>${item.example_cn}</p>
+      <p class="en-font">${item.example_en}</p>
+    </div>
+    <div class="detail-actions">
+      <button class="detail-btn" id="favBtn">${isFav ? '取消收藏' : '收藏'}</button>
+      <button class="detail-btn" id="shareBtn">复制链接</button>
+    </div>
+  `;
+
+  document.getElementById('favBtn').onclick = () => toggleFav(item);
+  document.getElementById('shareBtn').onclick = () => {
+    navigator.clipboard.writeText(window.location.href);
+    alert(lang==='zh'?'已复制链接':'Link copied');
+  };
+}
+
+// 收藏
+function toggleFav(item) {
+  const idx = favorites.findIndex(x => x.name === item.name);
+  if (idx === -1) favorites.push(item);
+  else favorites.splice(idx, 1);
+  localStorage.setItem('fav', JSON.stringify(favorites));
+  showDetail(item);
+}
+
+// 历史
+function addToHistory(item) {
+  const idx = history.findIndex(x => x.name === item.name);
+  if (idx !== -1) history.splice(idx, 1);
+  history.unshift(item);
+  if (history.length > 30) history = history.slice(0, 30);
+  localStorage.setItem('history', JSON.stringify(history));
+}
+
+// 返回
+document.getElementById('backBtn').onclick = () => {
+  document.getElementById('detail').style.display = 'none';
+  document.getElementById('home').classList.add('active');
+};
+
+// 初始化
+loadData();
+</script>
+
+</body>
+</html>
 // 完整非遗词条库（10大类、1000+条，专业英译+音标+例句）
 const ichData = [
 {
@@ -11890,73 +12247,3 @@ const ichData = [
     "example_en": "It is an early form of Chinese kuaiban art."
 }
 ];
-// 下面是搜索、渲染、交互逻辑
-const searchInput = document.getElementById('searchInput');
-const resultList = document.getElementById('resultList');
-const homePage = document.getElementById('homePage');
-const resultPage = document.getElementById('resultPage');
-
-// 渲染列表
-function renderList(list) {
-  if (!list || list.length === 0) {
-    resultList.innerHTML = '<p style="text-align:center; padding:20px;">未找到相关词条</p>';
-    return;
-  }
-  resultList.innerHTML = list.map(item => `
-    <div class="card">
-      <div class="card-title">${item.name}</div>
-      <div class="card-en">${item.en}</div>
-      <div class="card-phonetic">UK: ${item.phonetic_uk} | US: ${item.phonetic_us}</div>
-      <div>
-        <span class="card-tag">${item.type}</span>
-        <span class="card-tag">${item.region}</span>
-      </div>
-      <div class="card-desc">${item.desc}</div>
-      <div class="card-example">
-        <div><strong>例句：</strong>${item.example_cn}</div>
-        <div><strong>Example：</strong>${item.example_en}</div>
-      </div>
-    </div>
-  `).join('');
-}
-
-// 搜索
-searchInput.addEventListener('input', () => {
-  const kw = searchInput.value.trim().toLowerCase();
-  if (!kw) {
-    homePage.style.display = 'block';
-    resultPage.style.display = 'none';
-    return;
-  }
-  const filtered = ichData.filter(item => 
-    item.name.toLowerCase().includes(kw) ||
-    item.en.toLowerCase().includes(kw) ||
-    item.type.toLowerCase().includes(kw) ||
-    item.region.toLowerCase().includes(kw)
-  );
-  homePage.style.display = 'none';
-  resultPage.style.display = 'block';
-  renderList(filtered);
-});
-
-// 分类点击
-document.querySelectorAll('.cat-box').forEach(el => {
-  el.addEventListener('click', () => {
-    const type = el.dataset.type;
-    const filtered = ichData.filter(item => item.type === type);
-    homePage.style.display = 'none';
-    resultPage.style.display = 'block';
-    renderList(filtered);
-  });
-});
-
-// 首页
-document.querySelector('.home').addEventListener('click', () => {
-  homePage.style.display = 'block';
-  resultPage.style.display = 'none';
-  searchInput.value = '';
-});
-
-</script>
-</body>
-</html>
