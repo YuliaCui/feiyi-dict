@@ -4,385 +4,169 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>译通非遗 · 非遗英译专业辞典</title>
-<meta http-equiv="Cache-Control" content="no-cache, no-store, must-revalidate">
-<meta http-equiv="Pragma" content="no-cache">
-<meta http-equiv="Expires" content="0">
 <style>
-* {
-  margin: 0;
-  padding: 0;
-  box-sizing: border-box;
-}
-:root {
-  --main: #1a4a7e;
-  --bg: #f8f9fa;
-  --card: #ffffff;
-  --text: #222222;
-  --gray: #666;
-  --light-gray: #e9ecef;
-}
-body {
-  font-family: "PingFang SC", "Microsoft YaHei", sans-serif;
-  background-color: var(--bg);
-  color: var(--text);
-  line-height: 1.6;
-}
-.en-font {
-  font-family: "Georgia", "Times New Roman", serif;
-}
-
-/* 顶部 */
-.header {
-  background-color: var(--main);
-  color: white;
-  padding: 16px 20px;
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-}
-.site-title {
-  font-size: 18px;
-  font-weight: bold;
-}
-.nav {
-  display: flex;
-  gap: 20px;
-}
-.nav a {
-  color: white;
-  text-decoration: none;
-  font-size: 15px;
-}
-.lang-switch {
-  background: rgba(255,255,255,0.2);
-  color: white;
-  border: none;
-  padding: 4px 8px;
-  border-radius: 4px;
-  font-size: 12px;
-  cursor: pointer;
-}
-
-/* 搜索区 */
-.search-section {
-  padding: 30px 20px;
-  max-width: 900px;
-  margin: 0 auto;
-}
-.search-box {
-  width: 100%;
-  padding: 14px 20px;
-  border: 1px solid #ddd;
-  border-radius: 50px;
-  font-size: 16px;
-  outline: none;
-  box-shadow: 0 2px 8px rgba(0,0,0,0.05);
-}
-.search-box:focus {
-  border-color: var(--main);
-}
-
-/* 首页四大卡片 */
-.container {
-  max-width: 900px;
-  margin: 0 auto;
-  padding: 0 20px 40px;
-}
-.card-grid {
-  display: grid;
-  grid-template-columns: repeat(2, 1fr);
-  gap: 16px;
-  margin-bottom: 30px;
-}
-.big-card {
-  background: var(--card);
-  border-radius: 12px;
-  padding: 24px 16px;
-  text-align: center;
-  box-shadow: 0 2px 10px rgba(0,0,0,0.05);
-  cursor: pointer;
-  transition: 0.2s;
-  font-weight: 500;
-  color: var(--main);
-}
-.big-card:hover {
-  background: var(--main);
-  color: white;
-}
-
-/* 结果区域 */
-.result-area {
-  display: none;
-}
-.result-title {
-  font-size: 16px;
-  margin-bottom: 12px;
-  color: var(--gray);
-}
-.empty-tip {
-  text-align: center;
-  padding: 40px 20px;
-  color: #999;
-  font-size: 14px;
-}
-
-/* 词条卡片 */
-.entry-card {
-  background: var(--card);
-  border-radius: 10px;
-  padding: 16px;
-  margin-bottom: 10px;
-  box-shadow: 0 1px 4px rgba(0,0,0,0.04);
-  cursor: pointer;
-}
-.entry-name {
-  font-size: 17px;
-  font-weight: bold;
-  margin-bottom: 4px;
-}
-.entry-en {
-  font-size: 15px;
-  color: var(--gray);
-  margin-bottom: 6px;
-}
-.entry-tag {
-  display: inline-block;
-  background: var(--light-gray);
-  color: var(--main);
-  font-size: 12px;
-  padding: 2px 6px;
-  border-radius: 4px;
-  margin-right: 6px;
-}
-
-/* 详情页 */
-.detail-page {
-  display: none;
-  padding: 20px;
-  max-width: 800px;
-  margin: 0 auto;
-}
-.detail-back {
-  margin-bottom: 16px;
-  padding: 8px 14px;
-  background: var(--main);
-  color: white;
-  border: none;
-  border-radius: 6px;
-  cursor: pointer;
-}
-.detail-box {
-  background: white;
-  border-radius: 12px;
-  padding: 24px;
-  box-shadow: 0 2px 10px rgba(0,0,0,0.06);
-}
-.detail-title {
-  font-size: 22px;
-  font-weight: bold;
-  margin-bottom: 8px;
-}
-.detail-en {
-  font-size: 17px;
-  color: var(--gray);
-  margin-bottom: 12px;
-}
-.detail-phonetic {
-  font-size: 15px;
-  color: #555;
-  margin-bottom: 16px;
-}
-.detail-section {
-  margin-bottom: 18px;
-}
-.detail-section h4 {
-  font-size: 15px;
-  margin-bottom: 6px;
-  color: var(--main);
-}
-.detail-section p {
-  font-size: 15px;
-  color: #333;
-}
-.detail-actions {
-  display: flex;
-  gap: 10px;
-  margin-top: 20px;
-}
-.detail-btn {
-  padding: 8px 12px;
-  border: 1px solid var(--main);
-  background: white;
-  color: var(--main);
-  border-radius: 6px;
-  cursor: pointer;
-  font-size: 14px;
-}
-
-/* 分类页面 */
-.category-page {
-  display: none;
-}
-.page-title {
-  font-size: 18px;
-  margin-bottom: 16px;
-}
-.class-btns {
-  display: flex;
-  flex-wrap: wrap;
-  gap: 8px;
-  margin-bottom: 20px;
-}
-.class-btn {
-  padding: 8px 12px;
-  background: white;
-  border: 1px solid #ddd;
-  border-radius: 6px;
-  cursor: pointer;
-}
-.class-btn.active {
-  background: var(--main);
-  color: white;
-  border-color: var(--main);
-}
-.alphabet-group {
-  display: flex;
-  flex-wrap: wrap;
-  gap: 6px;
-  margin-bottom: 20px;
-}
-.alpha-btn {
-  width: 32px;
-  height: 32px;
-  line-height: 32px;
-  text-align: center;
-  background: white;
-  border: 1px solid #ddd;
-  border-radius: 4px;
-  cursor: pointer;
-}
-.region-list {
-  display: flex;
-  flex-wrap: wrap;
-  gap: 8px;
-  margin-bottom: 20px;
-}
-.region-btn {
-  padding: 8px 12px;
-  background: white;
-  border: 1px solid #ddd;
-  border-radius: 6px;
-  cursor: pointer;
-}
-.region-btn.active {
-  background: var(--main);
-  color: white;
-  border-color: var(--main);
-}
-
-/* 底部 */
-.footer {
-  background-color: var(--main);
-  color: white;
-  text-align: center;
-  padding: 16px 20px;
-  font-size: 13px;
-  margin-top: 40px;
-}
-.footer-small {
-  font-size: 12px;
-  margin-top: 6px;
-  opacity: 0.8;
-}
-
-/* 通用 */
-.page {
-  display: none;
-}
-.page.active {
-  display: block;
-}
+  * {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    font-family: "Microsoft YaHei", sans-serif;
+  }
+  body {
+    background: #f6f7fa;
+  }
+  .header {
+    background: #1a4a7e;
+    color: white;
+    padding: 16px 20px;
+    text-align: center;
+  }
+  .search-box {
+    display: block;
+    width: 90%;
+    max-width: 700px;
+    margin: 30px auto;
+    padding: 14px 20px;
+    border-radius: 30px;
+    border: 1px solid #ddd;
+    font-size: 16px;
+  }
+  .main-box {
+    max-width: 900px;
+    margin: 0 auto;
+    padding: 0 20px;
+  }
+  .four-cards {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 16px;
+    margin-bottom: 30px;
+  }
+  .card {
+    background: white;
+    padding: 24px 16px;
+    border-radius: 12px;
+    text-align: center;
+    font-weight: bold;
+    color: #1a4a7e;
+    cursor: pointer;
+    box-shadow: 0 2px 8px rgba(0,0,0,0.05);
+  }
+  .page {
+    display: none;
+    margin-bottom: 40px;
+  }
+  .page.active {
+    display: block;
+  }
+  .btn-group {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 10px;
+    margin: 20px 0;
+  }
+  .type-btn, .region-btn, .alpha-btn {
+    padding: 8px 14px;
+    background: white;
+    border: 1px solid #ddd;
+    border-radius: 6px;
+    cursor: pointer;
+  }
+  .word-item {
+    background: white;
+    padding: 16px;
+    border-radius: 10px;
+    margin-bottom: 10px;
+  }
+  .word-name {
+    font-size: 17px;
+    font-weight: bold;
+  }
+  .word-en {
+    color: #666;
+    margin: 4px 0;
+  }
+  .back-btn {
+    padding: 8px 16px;
+    background: #1a4a7e;
+    color: white;
+    border: none;
+    border-radius: 6px;
+    margin-bottom: 16px;
+    cursor: pointer;
+  }
+  .footer {
+    background: #1a4a7e;
+    color: white;
+    text-align: center;
+    padding: 16px;
+    font-size: 13px;
+    margin-top: 40px;
+  }
 </style>
 </head>
 
 <body>
 
-<!-- 顶部 -->
 <div class="header">
-  <div class="site-title">译通非遗 · 非遗英译专业辞典</div>
-  <div class="nav">
-    <a href="#" class="nav-page active" data-target="home">首页</a>
-    <button class="lang-switch" id="langBtn">EN</button>
-  </div>
+  <h2>译通非遗 · 非遗英译专业辞典</h2>
 </div>
 
-<!-- 搜索 -->
-<div class="search-section">
-  <input type="text" class="search-box" id="searchInput" placeholder="输入中文、英文、拼音、音标搜索">
-</div>
+<input class="search-box" id="search" placeholder="搜索中文、英文、拼音、音标">
 
-<!-- 容器 -->
-<div class="container">
+<div class="main-box">
 
   <!-- 首页 -->
-  <div class="page active" id="home">
-    <div class="card-grid">
-      <div class="big-card" data-go="category-type">类别分类</div>
-      <div class="big-card" data-go="category-alpha">拼音排序</div>
-      <div class="big-card" data-go="category-region">地区分类</div>
-      <div class="big-card" data-go="category-hot">热门程度</div>
+  <div class="page active" id="page-home">
+    <div class="four-cards">
+      <div class="card" onclick="goPage('type')">类别分类</div>
+      <div class="card" onclick="goPage('pinyin')">拼音排序</div>
+      <div class="card" onclick="goPage('region')">地区分类</div>
+      <div class="card" onclick="goPage('hot')">热门程度</div>
     </div>
 
-    <div class="result-area" id="resultArea">
-      <div class="result-title" id="resultTip">搜索结果</div>
-      <div id="resultList"></div>
-    </div>
+    <div id="search-result" style="display:none;"></div>
   </div>
 
-  <!-- 分类总页 -->
-  <div class="page category-page" id="category">
-    <div class="page-title" id="categoryTitle">分类浏览</div>
-
-    <!-- 类别 -->
-    <div id="catType" style="display:none;">
-      <div class="class-btns" id="typeBtns"></div>
-      <div id="typeList"></div>
-    </div>
-
-    <!-- 拼音 -->
-    <div id="catAlpha" style="display:none;">
-      <div style="margin-bottom:10px;">
-        <button class="detail-btn" id="switchCnPy">中文拼音</button>
-        <button class="detail-btn" id="switchEnAbc">英文A-Z</button>
-      </div>
-      <div class="alphabet-group" id="alphaGroup"></div>
-      <div id="alphaList"></div>
-    </div>
-
-    <!-- 地区 -->
-    <div id="catRegion" style="display:none;">
-      <div class="region-list" id="regionBtns"></div>
-      <div id="regionList"></div>
-    </div>
-
-    <!-- 热门 -->
-    <div id="catHot" style="display:none;">
-      <div id="hotList"></div>
-    </div>
+  <!-- 类别分类 -->
+  <div class="page" id="page-type">
+    <button class="back-btn" onclick="goPage('home')">返回首页</button>
+    <h3>类别分类</h3>
+    <div class="btn-group" id="type-list"></div>
+    <div id="type-result"></div>
   </div>
 
-  <!-- 详情页 -->
-  <div class="detail-page" id="detail">
-    <button class="detail-back" id="backBtn">返回</button>
-    <div class="detail-box" id="detailContent"></div>
+  <!-- 拼音排序 -->
+  <div class="page" id="page-pinyin">
+    <button class="back-btn" onclick="goPage('home')">返回首页</button>
+    <h3>拼音排序</h3>
+    <div style="margin:16px 0;">
+      <button class="alpha-btn" onclick="setAlphaMode('cn')">中文拼音</button>
+      <button class="alpha-btn" onclick="setAlphaMode('en')">英文A-Z</button>
+    </div>
+    <div class="btn-group" id="alpha-letters"></div>
+    <div id="pinyin-result"></div>
+  </div>
+
+  <!-- 地区分类 -->
+  <div class="page" id="page-region">
+    <button class="back-btn" onclick="goPage('home')">返回首页</button>
+    <h3>地区分类</h3>
+    <div class="btn-group" id="region-list"></div>
+    <div id="region-result"></div>
+  </div>
+
+  <!-- 热门程度 -->
+  <div class="page" id="page-hot">
+    <button class="back-btn" onclick="goPage('home')">返回首页</button>
+    <h3>热门程度（前10）</h3>
+    <div id="hot-result"></div>
   </div>
 
 </div>
 
-<!-- 底部 -->
 <div class="footer">
-  <div>© 2026 译通非遗 版权所有 | 仅限学习与学术使用</div>
-  <div class="footer-small">商务与学术合作 | 邮箱：3201973524@qq.com</div>
+  © 2026 译通非遗 版权所有 | 仅限学习与学术使用<br>
+  商务合作：3201973524@qq.com
 </div>
 // 完整非遗词条库（10大类、1000+条，专业英译+音标+例句）
 const ichData = [
@@ -12092,280 +11876,108 @@ const ichData = [
 }
 ];
 <script>
-// 全局变量（直接读取你写的 ichData）
-let allData = ichData;
-let lang = 'zh';
-let favorites = JSON.parse(localStorage.getItem('fav') || '[]');
-let history = JSON.parse(localStorage.getItem('history') || '[]');
+let data = ichData;
+let alphaMode = 'cn';
 
-// 提取数据中的拼音首字母（用于中文拼音排序）
-function getFirstPinyinLetter(name) {
-  const firstChar = name.charAt(0);
-  const pinyinMap = {
-    '昆':'K', '京':'J', '北':'B', '南':'N', '上':'S', '江':'J', '浙':'Z', '苏':'S', '广':'G', '福':'F', '川':'C', '陕':'S', '云':'Y', '贵':'G', '辽':'L', '吉':'J', '黑':'H', '新':'X', '藏':'Z', '青':'Q', '甘':'G', '宁':'N', '内':'N', '台':'T', '港':'G', '澳':'A'
-  };
-  return pinyinMap[firstChar] || firstChar.toUpperCase();
+// 切换页面
+function goPage(id) {
+  document.querySelectorAll('.page').forEach(p => p.classList.remove('active'));
+  document.getElementById('page-' + id).classList.add('active');
+  if (id === 'type') loadTypes();
+  if (id === 'region') loadRegions();
+  if (id === 'hot') loadHot();
+  if (id === 'pinyin') loadAlpha();
 }
 
-// 提取所有不重复的非遗类别
-function getUniqueTypes() {
-  const types = new Set();
-  allData.forEach(item => types.add(item.type));
-  return Array.from(types);
-}
-
-// 提取所有不重复的省份
-function getUniqueRegions() {
-  const regions = new Set();
-  allData.forEach(item => {
-    if (item.region && item.region !== '全国') {
-      // 拆分多地区（如“江苏、浙江、上海”）
-      item.region.split(/[、,]/).forEach(r => regions.add(r.trim()));
-    }
-  });
-  return Array.from(regions);
-}
-
-// 语言切换功能
-document.getElementById('langBtn').onclick = () => {
-  lang = lang === 'zh' ? 'en' : 'zh';
-  document.getElementById('langBtn').textContent = lang === 'zh' ? 'EN' : '中文';
-  document.querySelector('.search-box').placeholder = lang === 'zh' ? '输入中文、英文、拼音、音标搜索' : 'Search CN/EN/Pinyin/Phonetic';
-  document.getElementById('categoryTitle').textContent = lang === 'zh' ? '分类浏览' : 'Categories';
-};
-
-// 导航切换
-document.querySelectorAll('.nav-page').forEach(el => {
-  el.onclick = (e) => {
-    e.preventDefault();
-    document.querySelectorAll('.page').forEach(p => p.classList.remove('active'));
-    const target = el.dataset.target;
-    document.getElementById(target).classList.add('active');
-  };
-});
-
-// 四大卡片点击跳转
-document.querySelectorAll('.big-card').forEach(card => {
-  card.onclick = () => {
-    const go = card.dataset.go;
-    document.querySelectorAll('.page').forEach(p => p.classList.remove('active'));
-    document.getElementById('category').classList.add('active');
-    document.querySelectorAll('#catType,#catAlpha,#catRegion,#catHot').forEach(d => d.style.display = 'none');
-
-    if (go === 'category-type') {
-      document.getElementById('catType').style.display = 'block';
-      renderTypeButtons();
-    }
-    if (go === 'category-alpha') {
-      document.getElementById('catAlpha').style.display = 'block';
-      renderAlphabetButtons('cn');
-    }
-    if (go === 'category-region') {
-      document.getElementById('catRegion').style.display = 'block';
-      renderRegionButtons();
-    }
-    if (go === 'category-hot') {
-      document.getElementById('catHot').style.display = 'block';
-      renderHotList();
-    }
-  };
-});
-
-// 渲染【类别分类】的10个按钮
-function renderTypeButtons() {
-  const types = getUniqueTypes();
-  const container = document.getElementById('typeBtns');
-  container.innerHTML = types.map(type => `<button class="class-btn" data-type="${type}">${type}</button>`).join('');
-  
-  container.querySelectorAll('.class-btn').forEach(btn => {
-    btn.onclick = () => {
-      const selectedType = btn.dataset.type;
-      const filtered = allData.filter(item => item.type === selectedType);
-      renderEntryCards(filtered, 'typeList');
-      container.querySelectorAll('.class-btn').forEach(b => b.classList.remove('active'));
-      btn.classList.add('active');
-    };
-  });
-}
-
-// 渲染【拼音排序】的字母按钮
-let currentAlphaMode = 'cn';
-function renderAlphabetButtons(mode) {
-  currentAlphaMode = mode;
-  const letters = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ'.split('');
-  const container = document.getElementById('alphaGroup');
-  container.innerHTML = letters.map(l => `<button class="alpha-btn" data-letter="${l}">${l}</button>`).join('');
-  
-  container.querySelectorAll('.alpha-btn').forEach(btn => {
-    btn.onclick = () => {
-      const letter = btn.dataset.letter;
-      let filtered;
-      if (mode === 'cn') {
-        filtered = allData.filter(item => getFirstPinyinLetter(item.name) === letter);
-      } else {
-        filtered = allData.filter(item => item.en.toUpperCase().startsWith(letter));
-      }
-      renderEntryCards(filtered, 'alphaList');
-    };
-  });
-}
-
-// 拼音模式切换
-document.getElementById('switchCnPy').onclick = () => renderAlphabetButtons('cn');
-document.getElementById('switchEnAbc').onclick = () => renderAlphabetButtons('en');
-
-// 渲染【地区分类】的省份按钮
-function renderRegionButtons() {
-  const regions = getUniqueRegions();
-  const container = document.getElementById('regionBtns');
-  container.innerHTML = regions.map(r => `<button class="region-btn" data-region="${r}">${r}</button>`).join('');
-  
-  container.querySelectorAll('.region-btn').forEach(btn => {
-    btn.onclick = () => {
-      const selectedRegion = btn.dataset.region;
-      const filtered = allData.filter(item => item.region && item.region.includes(selectedRegion));
-      renderEntryCards(filtered, 'regionList');
-      container.querySelectorAll('.region-btn').forEach(b => b.classList.remove('active'));
-      btn.classList.add('active');
-    };
-  });
-}
-
-// 渲染【热门程度】列表（取前10条）
-function renderHotList() {
-  const hotData = allData.slice(0, 10);
-  renderEntryCards(hotData, 'hotList');
-}
-
-// 渲染词条卡片
-function renderEntryCards(data, containerId) {
-  const container = document.getElementById(containerId);
-  if (!container) return;
-
-  if (data.length === 0) {
-    container.innerHTML = `<div class="empty-tip">暂无相关词条</div>`;
+// 1. 搜索（实时）
+document.getElementById('search').addEventListener('input', function(e) {
+  const kw = e.target.value.toLowerCase().trim();
+  const resBox = document.getElementById('search-result');
+  if (!kw) {
+    resBox.style.display = 'none';
     return;
   }
+  resBox.style.display = 'block';
+  const matched = data.filter(item => {
+    const name = (item.name || "").toLowerCase();
+    const en = (item.en || "").toLowerCase();
+    const uk = (item.phonetic_uk || "").toLowerCase();
+    const us = (item.phonetic_us || "").toLowerCase();
+    return name.includes(kw) || en.includes(kw) || uk.includes(kw) || us.includes(kw);
+  });
+  resBox.innerHTML = matched.length ? renderWords(matched) : "<p style='text-align:center;'>未找到相关词汇</p>";
+});
 
-  container.innerHTML = data.map((item, index) => `
-    <div class="entry-card" data-index="${index}">
-      <div class="entry-name">${item.name}</div>
-      <div class="entry-en en-font">${item.en}</div>
-      <div>
-        <span class="entry-tag">${item.type}</span>
-        <span class="entry-tag">${item.region}</span>
-      </div>
+// 2. 类别分类
+function loadTypes() {
+  const types = [...new Set(data.map(i => i.type))];
+  const box = document.getElementById('type-list');
+  box.innerHTML = types.map(t => `
+    <button class="type-btn" onclick="showType('${t}')">${t}</button>
+  `).join('');
+  document.getElementById('type-result').innerHTML = '';
+}
+function showType(type) {
+  const list = data.filter(i => i.type === type);
+  document.getElementById('type-result').innerHTML = renderWords(list);
+}
+
+// 3. 拼音/字母
+function loadAlpha() {
+  const letters = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ'.split('');
+  document.getElementById('alpha-letters').innerHTML = letters.map(l => `
+    <button class="alpha-btn" onclick="showAlpha('${l}')">${l}</button>
+  `).join('');
+  document.getElementById('pinyin-result').innerHTML = '';
+}
+function setAlphaMode(m) {
+  alphaMode = m;
+  loadAlpha();
+}
+function showAlpha(letter) {
+  let list;
+  if (alphaMode === 'en') {
+    list = data.filter(i => i.en.toUpperCase().startsWith(letter));
+  } else {
+    list = data.filter(i => getPyFirst(i.name) === letter);
+  }
+  document.getElementById('pinyin-result').innerHTML = renderWords(list);
+}
+function getPyFirst(c) {
+  const map = {昆:'K',京:'J',北:'B',南:'N',上:'S',江:'J',浙:'Z',苏:'S',广:'G',福:'F',川:'C',陕:'S',云:'Y',贵:'G',辽:'L',吉:'J',黑:'H',新:'X',藏:'Z',青:'Q',甘:'G',宁:'N',内:'N',台:'T',港:'G',澳:'A'};
+  return map[c.charAt(0)] || c.charAt(0).toUpperCase();
+}
+
+// 4. 地区分类
+function loadRegions() {
+  const regions = [...new Set(data.map(i => i.region))];
+  const box = document.getElementById('region-list');
+  box.innerHTML = regions.map(r => `
+    <button class="region-btn" onclick="showRegion('${r}')">${r}</button>
+  `).join('');
+  document.getElementById('region-result').innerHTML = '';
+}
+function showRegion(region) {
+  const list = data.filter(i => i.region === region);
+  document.getElementById('region-result').innerHTML = renderWords(list);
+}
+
+// 5. 热门程度
+function loadHot() {
+  const top10 = data.slice(0, 10);
+  document.getElementById('hot-result').innerHTML = renderWords(top10);
+}
+
+// 渲染词条
+function renderWords(list) {
+  return list.map(item => `
+    <div class="word-item">
+      <div class="word-name">${item.name}</div>
+      <div class="word-en">${item.en}</div>
+      <div>${item.type} | ${item.region}</div>
     </div>
   `).join('');
-
-  container.querySelectorAll('.entry-card').forEach((card, i) => {
-    card.onclick = () => showDetailPage(data[i]);
-  });
 }
-
-// 实时搜索功能
-document.getElementById('searchInput').addEventListener('input', (e) => {
-  const keyword = e.target.value.trim().toLowerCase();
-  const resultArea = document.getElementById('resultArea');
-  const resultList = document.getElementById('resultList');
-
-  if (!keyword) {
-    resultArea.style.display = 'none';
-    resultList.innerHTML = '';
-    return;
-  }
-
-  resultArea.style.display = 'block';
-  const matchedData = allData.filter(item => {
-    const name = (item.name || '').toLowerCase();
-    const en = (item.en || '').toLowerCase();
-    const phonetic = ((item.phonetic_uk || '') + ' ' + (item.phonetic_us || '')).toLowerCase();
-    const desc = (item.desc || '').toLowerCase();
-    return name.includes(keyword) || en.includes(keyword) || phonetic.includes(keyword) || desc.includes(keyword);
-  });
-
-  if (matchedData.length === 0) {
-    resultList.innerHTML = `<div class="empty-tip">未找到相关非遗词汇，请尝试其他关键词</div>`;
-    return;
-  }
-
-  renderEntryCards(matchedData, 'resultList');
-});
-
-// 显示词条详情页
-function showDetailPage(item) {
-  document.querySelectorAll('.page').forEach(p => p.classList.remove('active'));
-  document.getElementById('detail').style.display = 'block';
-  addToHistory(item);
-
-  const isFavorited = favorites.some(x => x.name === item.name);
-  document.getElementById('detailContent').innerHTML = `
-    <div class="detail-title">${item.name}</div>
-    <div class="detail-en en-font">${item.en}</div>
-    <div class="detail-phonetic en-font">
-      英 ${item.phonetic_uk || ''}  美 ${item.phonetic_us || ''}
-    </div>
-    <div class="detail-section">
-      <h4>${lang === 'zh' ? '非遗类别' : 'Category'}</h4>
-      <p>${item.type}</p>
-    </div>
-    <div class="detail-section">
-      <h4>${lang === 'zh' ? '地区' : 'Region'}</h4>
-      <p>${item.region}</p>
-    </div>
-    <div class="detail-section">
-      <h4>${lang === 'zh' ? '简介' : 'Introduction'}</h4>
-      <p>${item.desc}</p>
-    </div>
-    <div class="detail-section">
-      <h4>${lang === 'zh' ? '双语例句' : 'Example'}</h4>
-      <p>${item.example_cn}</p>
-      <p class="en-font">${item.example_en}</p>
-    </div>
-    <div class="detail-actions">
-      <button class="detail-btn" id="favBtn">${isFavorited ? '取消收藏' : '收藏'}</button>
-      <button class="detail-btn" id="shareBtn">复制链接</button>
-    </div>
-  `;
-
-  document.getElementById('favBtn').onclick = () => toggleFavorite(item);
-  document.getElementById('shareBtn').onclick = () => {
-    navigator.clipboard.writeText(window.location.href);
-    alert(lang === 'zh' ? '已复制链接' : 'Link copied');
-  };
-}
-
-// 收藏功能
-function toggleFavorite(item) {
-  const index = favorites.findIndex(x => x.name === item.name);
-  if (index === -1) {
-    favorites.push(item);
-  } else {
-    favorites.splice(index, 1);
-  }
-  localStorage.setItem('fav', JSON.stringify(favorites));
-  showDetailPage(item);
-}
-
-// 浏览历史功能
-function addToHistory(item) {
-  const index = history.findIndex(x => x.name === item.name);
-  if (index !== -1) {
-    history.splice(index, 1);
-  }
-  history.unshift(item);
-  if (history.length > 30) {
-    history = history.slice(0, 30);
-  }
-  localStorage.setItem('history', JSON.stringify(history));
-}
-
-// 返回首页
-document.getElementById('backBtn').onclick = () => {
-  document.getElementById('detail').style.display = 'none';
-  document.getElementById('home').classList.add('active');
-};
 </script>
-
 </body>
 </html>
